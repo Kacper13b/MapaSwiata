@@ -15,5 +15,4 @@ public abstract class Samolot {
     public abstract void zmienTrase();
 
 
-
 }

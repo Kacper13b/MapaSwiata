@@ -1,3 +1,5 @@
+package Kontroler;
+
 import Pojazdy.SamolotPasazerski;
 import Pojazdy.SamolotWojskowy;
 import Pojazdy.Lotniskowiec;
@@ -80,4 +82,7 @@ public class Baza {
 
     }
 
+
+
 }
+
