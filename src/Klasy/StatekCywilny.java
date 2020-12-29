@@ -1,6 +1,4 @@
-package Pojazdy;
-
-import Pojazdy.Statek;
+package Klasy;
 
 public class StatekCywilny extends Statek {
 

@@ -1,9 +1,10 @@
-package Pojazdy;
+package Klasy;
 
 public class SamolotWojskowy extends Samolot {
 
     private int aktualnePaliwo;
     private int maksymalnePaliwo;
+    private int maksymalnaPredkosc;
     private String trasa;
     private int aktualnePolozenieX;
     private int aktualnePolozenieY;
@@ -11,9 +12,10 @@ public class SamolotWojskowy extends Samolot {
     private int id;
     private String typUzbrojenia;
 
-    public SamolotWojskowy(int aktualnePaliwo, int maksymalnePaliwo, String trasa, int aktualnePolozenieX, int aktualnePolozenieY, String miejsceLadowania, int id, String typUzbrojenia) {
+    public SamolotWojskowy(int aktualnePaliwo, int maksymalnePaliwo, int maksymalnaPredkosc, String trasa, int aktualnePolozenieX, int aktualnePolozenieY, String miejsceLadowania, int id, String typUzbrojenia) {
         this.aktualnePaliwo = aktualnePaliwo;
         this.maksymalnePaliwo = maksymalnePaliwo;
+        this.maksymalnaPredkosc = maksymalnaPredkosc;
         this.trasa = trasa;
         this.aktualnePolozenieX = aktualnePolozenieX;
         this.aktualnePolozenieY = aktualnePolozenieY;
@@ -36,6 +38,14 @@ public class SamolotWojskowy extends Samolot {
 
     public void setMaksymalnePaliwo(int maksymalnePaliwo) {
         this.maksymalnePaliwo = maksymalnePaliwo;
+    }
+
+    public int getMaksymalnaPredkosc() {
+        return maksymalnaPredkosc;
+    }
+
+    public void setMaksymalnaPredkosc(int maksymalnaPredkosc) {
+        this.maksymalnaPredkosc = maksymalnaPredkosc;
     }
 
     public String getTrasa() {

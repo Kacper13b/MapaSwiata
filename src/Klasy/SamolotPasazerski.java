@@ -1,4 +1,4 @@
-package Pojazdy;
+package Klasy;
 
 public class SamolotPasazerski extends Samolot {
 

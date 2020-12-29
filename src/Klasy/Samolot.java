@@ -1,4 +1,4 @@
-package Pojazdy;
+package Klasy;
 
 public abstract class Samolot {
 

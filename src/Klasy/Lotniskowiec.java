@@ -1,4 +1,4 @@
-package Pojazdy;
+package Klasy;
 
 public class Lotniskowiec extends Statek {
 
