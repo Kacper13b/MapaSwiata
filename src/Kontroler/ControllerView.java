@@ -87,8 +87,6 @@ public class ControllerView{
 
 
 
-
-
     public ControllerView(Stage controllerWindow, Baza baza) {
         this.controllerWindow = controllerWindow;
         this.baza = baza;
@@ -97,7 +95,7 @@ public class ControllerView{
 
     public void tworzenieOkna() {
         borderPane = new BorderPane();
-        scene = new Scene(borderPane, 1000, 600);
+        scene = new Scene(borderPane, 800, 550);
         controllerWindow.setTitle("Kontroler");
         //controllerWindow.show();
         tworzeniePrawego();
@@ -452,7 +450,6 @@ public class ControllerView{
                     final int index = listViewLotniskowiec.getSelectionModel().getSelectedIndex();
                     if (index != -1){
                         Lotniskowiec doUsuniecia = listViewLotniskowiec.getSelectionModel().getSelectedItem();
-
                         final int nowyIndex = (index == listViewLotniskowiec.getItems().size() - 1)
                                 ? index - 1
                                 : index;
