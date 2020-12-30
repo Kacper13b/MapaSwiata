@@ -13,10 +13,6 @@ public class Main extends Application {
         ControllerView controllerView = new ControllerView(primaryStage, baza);
         Stage noweOkno = new Stage();
         Mapa mapa = new Mapa(noweOkno, controllerView, baza);
-        //noweOkno.initOwner(primaryStage);
-        //noweOkno.show();
-
-
 
     }
 

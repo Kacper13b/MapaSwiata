@@ -93,7 +93,17 @@ public class Baza {
 
     }
 
-
+    public void dodajLotniskaCywilne(){
+        LotniskoCywilne lotnisko1 = new LotniskoCywilne(700,100,10,1, "Warszawa");
+        LotniskoCywilne lotnisko2 = new LotniskoCywilne(1200,500,10,2, "Melbourne");
+        LotniskoCywilne lotnisko3 = new LotniskoCywilne(300,100,10,3, "Toronto");
+        LotniskoCywilne lotnisko4 = new LotniskoCywilne(400,500,10,4, "Buenos Aires");
+        listaLotniskCywilnych.add(lotnisko1);
+        listaLotniskCywilnych.add(lotnisko2);
+        listaLotniskCywilnych.add(lotnisko3);
+        listaLotniskCywilnych.add(lotnisko4);
+    }
 
 }
+
 

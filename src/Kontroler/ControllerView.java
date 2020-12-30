@@ -84,6 +84,7 @@ public class ControllerView{
     private String typUzbrojenia;
     private int maksymalnaPojemnosc;
     private String firma;
+    private String miasto;
 
 
 
@@ -160,11 +161,11 @@ public class ControllerView{
                         maksymalnePaliwoTextField = new TextField();
                         maksymalnePaliwoTextField.setPromptText("Maksymalna ilosc paliwa w samolocie: ");
                         trasaTextField = new TextField();
-                        trasaTextField.setPromptText("Trasa lotu");
+                        trasaTextField.setPromptText("Z jakiego lotniska zaczyna lot");
                         aktualnePolozenieXTextField = new TextField();
-                        aktualnePolozenieXTextField.setPromptText("Aktualne położenie wartości x");
+                        aktualnePolozenieXTextField.setPromptText("Wartość x wybranego lotniska");
                         aktualnePolozenieYTextField = new TextField();
-                        aktualnePolozenieYTextField.setPromptText("Aktualne położenie wartości y");
+                        aktualnePolozenieYTextField.setPromptText("Wartość y wybranego lotniska");
                         miejsceLadowaniaTextField = new TextField();
                         miejsceLadowaniaTextField.setPromptText("Miejsce lądowania samolotu");
                         idTextField = new TextField();
@@ -194,7 +195,7 @@ public class ControllerView{
                         maksymalnePaliwoTextField = new TextField();
                         maksymalnePaliwoTextField.setPromptText("Maksymalna ilosc paliwa w samolocie: ");
                         trasaTextField = new TextField();
-                        trasaTextField.setPromptText("Trasa lotu");
+                        trasaTextField.setPromptText("Lotnisko z którego zaczyna lot");
                         aktualnePolozenieXTextField = new TextField();
                         aktualnePolozenieXTextField.setPromptText("Aktualne położenie wartości x");
                         aktualnePolozenieYTextField = new TextField();

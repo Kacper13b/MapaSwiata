@@ -1,29 +1,12 @@
 package Kontroler;
-import Klasy.*;
-import com.sun.prism.Image;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.util.*;
 public class Mapa {
 
 
@@ -31,7 +14,11 @@ public class Mapa {
     public ControllerView controllerView;
     public Baza baza;
 
-    private BorderPane borderPane;
+    private Group root = new Group();
+    private ImageView imageViewMapy;
+    private ImageView imageViewLotniskaCywilnego;
+    private ImageView imageViewLotniskaWojskowego;
+
     private Scene scene;
 
     public Mapa(Stage mapaSwiata, ControllerView controllerView, Baza baza) {
@@ -42,11 +29,42 @@ public class Mapa {
     }
 
     public void tworzenieOkna(){
-        BorderPane borderPane = new BorderPane();
-        Scene drugaScena = new Scene(borderPane, 900, 600);
+        tworzenieObrazu();
+        tworzenieObrazuLotniskaCywilnego();
+        tworzenieObrazuLotniskaWojskowego();
+        StackPane stackPane = new StackPane();
+        Scene drugaScena = new Scene(stackPane, 1425, 625);
         mapaSwiata.setTitle("Mapa Świata");
         mapaSwiata.show();
         mapaSwiata.setScene(drugaScena);
+        stackPane.getChildren().add(root);
+        root.getChildren().add(imageViewMapy);
+        root.getChildren().add(imageViewLotniskaCywilnego);
+        root.getChildren().add(imageViewLotniskaWojskowego);
+    }
+
+    public void tworzenieObrazu(){
+        Image obrazMapyImage = new Image("obrazMapy.jpg");
+        imageViewMapy = new ImageView(obrazMapyImage);
+
+    }
+
+    public void tworzenieObrazuLotniskaCywilnego(){
+        Image obrazLotniskaCywilnegoImage = new Image("airport-building.png");
+        imageViewLotniskaCywilnego = new ImageView(obrazLotniskaCywilnegoImage);
+        imageViewLotniskaCywilnego.setFitHeight(30);
+        imageViewLotniskaCywilnego.setFitWidth(30);
+        imageViewLotniskaCywilnego.setX(1200);
+        imageViewLotniskaCywilnego.setY(500);
+    }
+
+    public void tworzenieObrazuLotniskaWojskowego(){
+        Image obrazLotniskaWojskowegoImage = new Image("airForceBase.png");
+        imageViewLotniskaWojskowego = new ImageView(obrazLotniskaWojskowegoImage);
+        imageViewLotniskaWojskowego.setFitHeight(30);
+        imageViewLotniskaWojskowego.setFitWidth(30);
+        imageViewLotniskaWojskowego.setX(300);
+        imageViewLotniskaWojskowego.setY(500);
     }
 
 
