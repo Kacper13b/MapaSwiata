@@ -1,24 +1,23 @@
 package Kontroler;
 import Klasy.*;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
+import javafx.scene.control.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+
 
 import java.util.*;
 
@@ -27,6 +26,7 @@ public class ControllerView{
 
     private final Stage controllerWindow;
     public Baza baza;
+    public Mapa mapa;
     private BorderPane borderPane;
     private Scene scene;
     private VBox elementy;
@@ -43,17 +43,20 @@ public class ControllerView{
     private RadioButton radioButtonSamolotWojskowy;
     private RadioButton radioButtonStatekPasazerski;
     private RadioButton radioButtonLotniskowiec;
+    private RadioButton radioButtonInfo;
     private ToggleGroup grupaRadioButtonow;
 
     private Button dodajButton;
     private Button usunButton;
-    private Button wyswietlInfoButton;
+    private Button rozpocznijLotButton;
 
     private Font font = Font.font("Verdana", 14);
     private Text samolotPasazerskiText;
     private Text samolotWojskowyText;
     private Text statekPasazerskiText;
     private Text lotniskowiecText;
+    private Text infoCywilne;
+    private Text infoWojskowe;
 
 
 
@@ -79,6 +82,8 @@ public class ControllerView{
     private String trasa;
     private int aktualnePolozenieX;
     private int aktualnePolozenieY;
+    private int docelowePolozenieX;
+    private int docelowePolozenieY;
     private String miejsceLadowania;
     private int id;
     private String typUzbrojenia;
@@ -88,9 +93,10 @@ public class ControllerView{
 
 
 
-    public ControllerView(Stage controllerWindow, Baza baza) {
+    public ControllerView(Stage controllerWindow, Baza baza, Mapa mapa) {
         this.controllerWindow = controllerWindow;
         this.baza = baza;
+        this.mapa = mapa;
         tworzenieOkna();
     }
 
@@ -119,15 +125,17 @@ public class ControllerView{
         radioButtonSamolotWojskowy = new RadioButton("Samolot Wojskowy");
         radioButtonStatekPasazerski = new RadioButton("Statek Pasazerski");
         radioButtonLotniskowiec = new RadioButton("Lotniskowiec");
+        radioButtonInfo = new RadioButton("DOSTĘPNE LOTNISKA");
         grupaRadioButtonow = new ToggleGroup();
         radioButtonSamolotPasazerski.setToggleGroup(grupaRadioButtonow);
         radioButtonSamolotWojskowy.setToggleGroup(grupaRadioButtonow);
         radioButtonStatekPasazerski.setToggleGroup(grupaRadioButtonow);
         radioButtonLotniskowiec.setToggleGroup(grupaRadioButtonow);
+        radioButtonInfo.setToggleGroup(grupaRadioButtonow);
         elementy.setSpacing(25);
         elementy.setAlignment(Pos.CENTER);
         elementy.setPadding(new Insets(25));
-        elementy.getChildren().addAll(radioButtonSamolotPasazerski, radioButtonSamolotWojskowy, radioButtonStatekPasazerski, radioButtonLotniskowiec);
+        elementy.getChildren().addAll(radioButtonSamolotPasazerski, radioButtonSamolotWojskowy, radioButtonStatekPasazerski, radioButtonLotniskowiec, radioButtonInfo);
 
     }
 
@@ -162,10 +170,10 @@ public class ControllerView{
                         maksymalnePaliwoTextField.setPromptText("Maksymalna ilosc paliwa w samolocie: ");
                         trasaTextField = new TextField();
                         trasaTextField.setPromptText("Z jakiego lotniska zaczyna lot");
-                        aktualnePolozenieXTextField = new TextField();
-                        aktualnePolozenieXTextField.setPromptText("Wartość x wybranego lotniska");
-                        aktualnePolozenieYTextField = new TextField();
-                        aktualnePolozenieYTextField.setPromptText("Wartość y wybranego lotniska");
+                        //aktualnePolozenieXTextField = new TextField();
+                        //aktualnePolozenieXTextField.setPromptText("Wartość x wybranego lotniska");
+                        //aktualnePolozenieYTextField = new TextField();
+                        //aktualnePolozenieYTextField.setPromptText("Wartość y wybranego lotniska");
                         miejsceLadowaniaTextField = new TextField();
                         miejsceLadowaniaTextField.setPromptText("Miejsce lądowania samolotu");
                         idTextField = new TextField();
@@ -177,12 +185,12 @@ public class ControllerView{
                         aktualnePaliwoTextField.setFont(font);
                         maksymalnePaliwoTextField.setFont(font);
                         trasaTextField.setFont(font);
-                        aktualnePolozenieXTextField.setFont(font);
-                        aktualnePolozenieYTextField.setFont(font);
+                        //aktualnePolozenieXTextField.setFont(font);
+                        //aktualnePolozenieYTextField.setFont(font);
                         miejsceLadowaniaTextField.setFont(font);
                         idTextField.setFont(font);
 
-                        srodek.getChildren().addAll(samolotPasazerskiText, liczbaPasazerowTextField, maksymalnaPredkoscTextField, liczbaPersoneluTextField, aktualnePaliwoTextField, maksymalnePaliwoTextField, trasaTextField, aktualnePolozenieXTextField, aktualnePolozenieYTextField, miejsceLadowaniaTextField, idTextField);
+                        srodek.getChildren().addAll(samolotPasazerskiText, liczbaPasazerowTextField, maksymalnaPredkoscTextField, liczbaPersoneluTextField, aktualnePaliwoTextField, maksymalnePaliwoTextField, trasaTextField, miejsceLadowaniaTextField, idTextField);
                     }
                     else if(radioButtonSamolotWojskowy.isSelected()){
                         srodek.getChildren().clear();
@@ -196,10 +204,10 @@ public class ControllerView{
                         maksymalnePaliwoTextField.setPromptText("Maksymalna ilosc paliwa w samolocie: ");
                         trasaTextField = new TextField();
                         trasaTextField.setPromptText("Lotnisko z którego zaczyna lot");
-                        aktualnePolozenieXTextField = new TextField();
-                        aktualnePolozenieXTextField.setPromptText("Aktualne położenie wartości x");
-                        aktualnePolozenieYTextField = new TextField();
-                        aktualnePolozenieYTextField.setPromptText("Aktualne położenie wartości y");
+                        //aktualnePolozenieXTextField = new TextField();
+                        //aktualnePolozenieXTextField.setPromptText("Aktualne położenie wartości x");
+                        //aktualnePolozenieYTextField = new TextField();
+                        //aktualnePolozenieYTextField.setPromptText("Aktualne położenie wartości y");
                         miejsceLadowaniaTextField = new TextField();
                         miejsceLadowaniaTextField.setPromptText("Miejsce lądowania samolotu");
                         idTextField = new TextField();
@@ -211,12 +219,12 @@ public class ControllerView{
                         aktualnePaliwoTextField.setFont(font);
                         maksymalnePaliwoTextField.setFont(font);
                         trasaTextField.setFont(font);
-                        aktualnePolozenieXTextField.setFont(font);
-                        aktualnePolozenieYTextField.setFont(font);
+                        //aktualnePolozenieXTextField.setFont(font);
+                        //aktualnePolozenieYTextField.setFont(font);
                         miejsceLadowaniaTextField.setFont(font);
                         idTextField.setFont(font);
                         typUzbrojeniaTextField.setFont(font);
-                        srodek.getChildren().addAll(samolotWojskowyText, maksymalnaPredkoscTextField, aktualnePaliwoTextField, maksymalnePaliwoTextField, trasaTextField, aktualnePolozenieXTextField, aktualnePolozenieYTextField, miejsceLadowaniaTextField, idTextField, typUzbrojeniaTextField);
+                        srodek.getChildren().addAll(samolotWojskowyText, maksymalnaPredkoscTextField, aktualnePaliwoTextField, maksymalnePaliwoTextField, trasaTextField, miejsceLadowaniaTextField, idTextField, typUzbrojeniaTextField);
 
                     }
                     else if(radioButtonStatekPasazerski.isSelected()){
@@ -274,6 +282,16 @@ public class ControllerView{
 
                         srodek.getChildren().addAll(lotniskowiecText, maksymalnaPredkoscTextField, aktualnePolozenieXTextField, aktualnePolozenieYTextField, idTextField, typUzbrojeniaTextField);
                     }
+                    else if(radioButtonInfo.isSelected()){
+                        srodek.getChildren().clear();
+                        infoCywilne = new Text("Dostepne lotniska cywilne:\nWarszawa\nToronto\nMelbourne\nBuenos Aires");
+                        infoCywilne.setFont(Font.font("Verdana",16));
+                        infoCywilne.setTextAlignment(TextAlignment.LEFT);
+                        infoWojskowe = new Text("Dostępne lotniska wojskowe:\nPekin\nMoskwa\nKapsztad\nChabarowsk");
+                        infoWojskowe.setFont(Font.font("Verdana",16));
+                        infoWojskowe.setTextAlignment(TextAlignment.LEFT);
+                        srodek.getChildren().addAll(infoCywilne,infoWojskowe);
+                    }
                 }
 
             }
@@ -288,12 +306,12 @@ public class ControllerView{
         guzikiTworzenia.setPadding(new Insets(25));
         dodajButton = new Button("Dodaj element");
         usunButton = new Button("Usun element");
-        wyswietlInfoButton = new Button("Wyswietl Info");
+        rozpocznijLotButton = new Button("Rozpocznij lot");
         dzialanieGuzikaDodaj();
-        dzialanieGuzikaInfo();
+        dzialanieGuzikaRozpocznijLot();
         dzialanieGuzikaUsun();
 
-        guzikiTworzenia.getChildren().addAll(dodajButton, usunButton, wyswietlInfoButton);
+        guzikiTworzenia.getChildren().addAll(dodajButton, usunButton, rozpocznijLotButton);
 
     }
 
@@ -321,11 +339,25 @@ public class ControllerView{
         liczbaPersonelu = Integer.parseInt(liczbaPersoneluTextField.getText());
         aktualnePaliwo = Integer.parseInt(aktualnePaliwoTextField.getText());
         maksymalnePaliwo = Integer.parseInt(maksymalnePaliwoTextField.getText());
-        aktualnePolozenieX = Integer.parseInt(aktualnePolozenieXTextField.getText());
-        aktualnePolozenieY = Integer.parseInt(aktualnePolozenieYTextField.getText());
+        //aktualnePolozenieX = Integer.parseInt(aktualnePolozenieXTextField.getText());
+        //aktualnePolozenieY = Integer.parseInt(aktualnePolozenieYTextField.getText());
         id = Integer.parseInt(idTextField.getText());
         trasa = trasaTextField.getText();
+        int index = baza.listaNazwLotniskCywilnych.indexOf(trasa);
+        for (int i = 0; i < baza.listaKoordynatowLotniskCywilnych.size(); i++){
+            if(i==index){
+                aktualnePolozenieX = baza.listaKoordynatowLotniskCywilnych.get(i).get(0);
+                aktualnePolozenieY = baza.listaKoordynatowLotniskCywilnych.get(i).get(1);
+            }
+        }
         miejsceLadowania = miejsceLadowaniaTextField.getText();
+        int index2 = baza.listaNazwLotniskCywilnych.indexOf(miejsceLadowania);
+        for (int i = 0; i < baza.listaKoordynatowLotniskCywilnych.size(); i++){
+            if(i==index2){
+                docelowePolozenieX = baza.listaKoordynatowLotniskCywilnych.get(i).get(0);
+                docelowePolozenieY = baza.listaKoordynatowLotniskCywilnych.get(i).get(1);
+            }
+        }
 
     }
 
@@ -333,8 +365,15 @@ public class ControllerView{
         maksymalnaPredkosc = Integer.parseInt(maksymalnaPredkoscTextField.getText());
         aktualnePaliwo = Integer.parseInt(aktualnePaliwoTextField.getText());
         maksymalnePaliwo = Integer.parseInt(maksymalnePaliwoTextField.getText());
-        aktualnePolozenieX = Integer.parseInt(aktualnePolozenieXTextField.getText());
-        aktualnePolozenieY = Integer.parseInt(aktualnePolozenieYTextField.getText());
+        int index = baza.listaNazwLotniskWojskowych.indexOf(trasa);
+        for (int i = 0; i < baza.listaKoordynatowLotniskWojskowych.size(); i++){
+            if(i==index){
+                aktualnePolozenieX = baza.listaKoordynatowLotniskWojskowych.get(i).get(0);
+                aktualnePolozenieY = baza.listaKoordynatowLotniskWojskowych.get(i).get(1);
+            }
+        }
+        //aktualnePolozenieX = Integer.parseInt(aktualnePolozenieXTextField.getText());
+        //aktualnePolozenieY = Integer.parseInt(aktualnePolozenieYTextField.getText());
         id = Integer.parseInt(idTextField.getText());
         trasa = trasaTextField.getText();
         miejsceLadowania = miejsceLadowaniaTextField.getText();
@@ -363,14 +402,20 @@ public class ControllerView{
     }
 
 
-    public void dzialanieGuzikaInfo(){
-        wyswietlInfoButton.setOnAction(new EventHandler<ActionEvent>() {
+    public void dzialanieGuzikaRozpocznijLot(){
+        rozpocznijLotButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (radioButtonSamolotPasazerski.isSelected()){
-                    pobieranieDanychSamolotPasazerski();
-                    List <SamolotPasazerski> p = baza.getListaSamolotowPasazerskich();
-                    System.out.println(p);
+                    final int index = listViewSamolotPasazerski.getSelectionModel().getSelectedIndex();
+                    if (index != -1) {
+                        SamolotPasazerski samolotPasazerski = listViewSamolotPasazerski.getSelectionModel().getSelectedItem();
+                        int polozenieX = samolotPasazerski.getAktualnePolozenieX();
+                        int polozenieY = samolotPasazerski.getAktualnePolozenieY();
+                        int polozenieCeluX = samolotPasazerski.getDocelowePolozenieX();
+                        int polozenieCeluY = samolotPasazerski.getDocelowePolozenieY();
+                        mapa.przenoszenieObiektu(polozenieX, polozenieY, polozenieCeluX, polozenieCeluY, mapa.imageViewSamolotuCywilnego);
+                    }
                 }
                 else if(radioButtonSamolotWojskowy.isSelected()){
                     pobieranieDanychSamolotWojskowy();
@@ -412,6 +457,8 @@ public class ControllerView{
                         listViewSamolotPasazerski.getSelectionModel().select(nowyIndex);
                         listaSamolotowPasazerskich.remove(index);
                         baza.setListaSamolotowPasazerskich(listaSamolotowPasazerskich);
+                        mapa.clearPasazerski();
+                        mapa.tworzenieObrazuSamolotuCywilnego();
                         System.out.println("Usunięto samolot pasażerski: " + doUsuniecia);
                     }
                 }
@@ -428,6 +475,8 @@ public class ControllerView{
                         listViewSamolotWojskowy.getSelectionModel().select(nowyIndex);
                         listaSamolotowWojskowych.remove(index);
                         baza.setListaSamolotowWojskowych(listaSamolotowWojskowych);
+                        mapa.clearWojskowy();
+                        mapa.tworzenieObrazuSamolotuWojskowego();
                         System.out.println("Usunięto samolot wojskowych: " + doUsuniecia);
                     }
                 }
@@ -444,6 +493,8 @@ public class ControllerView{
                         listViewStatekCywilny.getSelectionModel().select(nowyIndex);
                         listaStatkowCywilnych.remove(index);
                         baza.setListaStatkowCywilnych(listaStatkowCywilnych);
+                        mapa.clearCywilny();
+                        mapa.tworzenieObrazuStatkuCywilnego();
                         System.out.println("Usunięto samolot wojskowych: " + doUsuniecia);
                     }
                 }
@@ -459,6 +510,8 @@ public class ControllerView{
                         listViewLotniskowiec.getSelectionModel().select(nowyIndex);
                         listaLotniskowcow.remove(index);
                         baza.setListaLotniskowcow(listaLotniskowcow);
+                        mapa.clearLotniskowiec();
+                        mapa.tworzenieObrazuLotniskowca();
                         System.out.println("Usunięto Lotniskowiec: " + doUsuniecia);
                     }
                 }
@@ -472,11 +525,13 @@ public class ControllerView{
             public void handle(ActionEvent actionEvent) {
                 if (radioButtonSamolotPasazerski.isSelected()){
                     pobieranieDanychSamolotPasazerski();
-                    SamolotPasazerski p = new SamolotPasazerski(liczbaPasazerow, maksymalnaPredkosc, liczbaPersonelu, aktualnePaliwo, maksymalnePaliwo, trasa, aktualnePolozenieX, aktualnePolozenieY, miejsceLadowania, id);
+                    SamolotPasazerski p = new SamolotPasazerski(liczbaPasazerow, maksymalnaPredkosc, liczbaPersonelu, aktualnePaliwo, maksymalnePaliwo, trasa, aktualnePolozenieX, aktualnePolozenieY, miejsceLadowania, id, docelowePolozenieX, docelowePolozenieY);
                     List <SamolotPasazerski> listaSamolotowPasazerskich = baza.getListaSamolotowPasazerskich();
                     listaSamolotowPasazerskich.add(p);
                     listViewSamolotPasazerski.getItems().add(p);
                     baza.setListaSamolotowPasazerskich(listaSamolotowPasazerskich);
+                    mapa.tworzenieObrazuSamolotuCywilnego();
+
                 }
                 else if(radioButtonSamolotWojskowy.isSelected()){
                     pobieranieDanychSamolotWojskowy();
@@ -485,6 +540,7 @@ public class ControllerView{
                     listaSamolotowWojskowych.add(w);
                     listViewSamolotWojskowy.getItems().add(w);
                     baza.setListaSamolotowWojskowych(listaSamolotowWojskowych);
+                    mapa.tworzenieObrazuSamolotuWojskowego();
 
                 }
 
@@ -495,6 +551,7 @@ public class ControllerView{
                     listaStatkowCywilnych.add(s);
                     listViewStatekCywilny.getItems().add(s);
                     baza.setListaStatkowCywilnych(listaStatkowCywilnych);
+                    mapa.tworzenieObrazuStatkuCywilnego();
 
 
                 }
@@ -505,9 +562,13 @@ public class ControllerView{
                     listaLotniskowcow.add(l);
                     listViewLotniskowiec.getItems().add(l);
                     baza.setListaLotniskowcow(listaLotniskowcow);
+                    mapa.tworzenieObrazuLotniskowca();
                 }
             }
         });
     }
 
+    public void test(){
+
+    }
 }

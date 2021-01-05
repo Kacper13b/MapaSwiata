@@ -10,9 +10,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Baza baza = new Baza();
-        ControllerView controllerView = new ControllerView(primaryStage, baza);
         Stage noweOkno = new Stage();
-        Mapa mapa = new Mapa(noweOkno, controllerView, baza);
+        Mapa mapa = new Mapa(noweOkno, baza);
+        ControllerView controllerView = new ControllerView(primaryStage, baza, mapa);
 
     }
 

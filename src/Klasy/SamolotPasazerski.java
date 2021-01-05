@@ -12,9 +12,11 @@ public class SamolotPasazerski extends Samolot {
     private int aktualnePolozenieY;
     private String miejsceLadowania;
     private int id;
+    private int docelowePolozenieX;
+    private int docelowePolozenieY;
 
 
-    public SamolotPasazerski(int liczbaPasazerow, int maksymalnaPredkosc, int liczbaPersonelu, int aktualnePaliwo, int maksymalnePaliwo, String trasa, int aktualnePolozenieX, int aktualnePolozenieY, String miejsceLadowania, int id) {
+    public SamolotPasazerski(int liczbaPasazerow, int maksymalnaPredkosc, int liczbaPersonelu, int aktualnePaliwo, int maksymalnePaliwo, String trasa, int aktualnePolozenieX, int aktualnePolozenieY, String miejsceLadowania, int id, int docelowePolozenieX, int docelowePolozenieY) {
         this.liczbaPasazerow = liczbaPasazerow;
         this.maksymalnaPredkosc = maksymalnaPredkosc;
         this.liczbaPersonelu = liczbaPersonelu;
@@ -25,6 +27,9 @@ public class SamolotPasazerski extends Samolot {
         this.aktualnePolozenieY = aktualnePolozenieY;
         this.miejsceLadowania = miejsceLadowania;
         this.id = id;
+        this.docelowePolozenieX = docelowePolozenieX;
+        this.docelowePolozenieY = docelowePolozenieY;
+
     }
 
     public int getLiczbaPasazerow() {
@@ -107,6 +112,21 @@ public class SamolotPasazerski extends Samolot {
         this.id = id;
     }
 
+    public int getDocelowePolozenieX() {
+        return docelowePolozenieX;
+    }
+
+    public void setDocelowePolozenieX(int docelowePolozenieX) {
+        this.docelowePolozenieX = docelowePolozenieX;
+    }
+
+    public int getDocelowePolozenieY() {
+        return docelowePolozenieY;
+    }
+
+    public void setDocelowePolozenieY(int docelowePolozenieY) {
+        this.docelowePolozenieY = docelowePolozenieY;
+    }
 
     //methods
 
@@ -120,7 +140,8 @@ public class SamolotPasazerski extends Samolot {
 
     public int tankuj(int akt_paliwo){
 
-        return maksymalnePaliwo;
+        int nowe_akt_paliwo = maksymalnePaliwo;
+        return nowe_akt_paliwo;
     }
 
     public void zglosWade(){
