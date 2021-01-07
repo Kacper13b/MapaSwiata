@@ -11,8 +11,10 @@ public class SamolotWojskowy extends Samolot {
     private String miejsceLadowania;
     private int id;
     private String typUzbrojenia;
+    private int docelowePolozenieX;
+    private int docelowePolozenieY;
 
-    public SamolotWojskowy(int aktualnePaliwo, int maksymalnePaliwo, int maksymalnaPredkosc, String trasa, int aktualnePolozenieX, int aktualnePolozenieY, String miejsceLadowania, int id, String typUzbrojenia) {
+    public SamolotWojskowy(int aktualnePaliwo, int maksymalnePaliwo, int maksymalnaPredkosc, String trasa, int aktualnePolozenieX, int aktualnePolozenieY, String miejsceLadowania, int id, String typUzbrojenia, int docelowePolozenieX, int docelowePolozenieY) {
         this.aktualnePaliwo = aktualnePaliwo;
         this.maksymalnePaliwo = maksymalnePaliwo;
         this.maksymalnaPredkosc = maksymalnaPredkosc;
@@ -22,6 +24,8 @@ public class SamolotWojskowy extends Samolot {
         this.miejsceLadowania = miejsceLadowania;
         this.id = id;
         this.typUzbrojenia = typUzbrojenia;
+        this.docelowePolozenieX = docelowePolozenieX;
+        this.docelowePolozenieY = docelowePolozenieY;
     }
 
     public int getAktualnePaliwo() {
@@ -96,6 +100,21 @@ public class SamolotWojskowy extends Samolot {
         this.typUzbrojenia = typUzbrojenia;
     }
 
+    public int getDocelowePolozenieX() {
+        return docelowePolozenieX;
+    }
+
+    public void setDocelowePolozenieX(int docelowePolozenieX) {
+        this.docelowePolozenieX = docelowePolozenieX;
+    }
+
+    public int getDocelowePolozenieY() {
+        return docelowePolozenieY;
+    }
+
+    public void setDocelowePolozenieY(int docelowePolozenieY) {
+        this.docelowePolozenieY = docelowePolozenieY;
+    }
 
     //methods
 

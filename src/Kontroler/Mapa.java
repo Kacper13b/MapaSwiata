@@ -4,20 +4,16 @@ import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
-import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 import java.util.List;
@@ -38,9 +34,9 @@ public class Mapa {
     private ImageView imageViewLotniskaCywilnego;
     private ImageView imageViewLotniskaWojskowego;
     public ImageView imageViewSamolotuCywilnego;
-    private ImageView imageViewSamolotuWojskowego;
-    private ImageView imageViewStatkuCywilnego;
-    private ImageView imageViewLotniskowca;
+    public ImageView imageViewSamolotuWojskowego;
+    public ImageView imageViewStatkuCywilnego;
+    public ImageView imageViewLotniskowca;
 
 
 
@@ -67,10 +63,10 @@ public class Mapa {
         root.getChildren().add(lotniskowiecGroup);
         tworzenieObrazuLotniskaCywilnego();
         tworzenieObrazuLotniskaWojskowego();
-        tworzenieObrazuSamolotuCywilnego();
-        tworzenieObrazuSamolotuWojskowego();
-        tworzenieObrazuStatkuCywilnego();
-        tworzenieObrazuLotniskowca();
+        updatowanieObrazuSamolotuCywilnego();
+        updatowanieObrazuSamolotuWojskowego();
+        updatowanieObrazuStatkuCywilnego();
+        updatowanieObrazuLotniskowca();
     }
 
     public void tworzenieObrazu(){
@@ -112,7 +108,7 @@ public class Mapa {
         }
     }
 
-    public void tworzenieObrazuSamolotuCywilnego(){
+    public void updatowanieObrazuSamolotuCywilnego(){
         List <SamolotPasazerski> listaSamolotowPaszerskich = baza.getListaSamolotowPasazerskich();
         for(SamolotPasazerski samolotPasazerski : listaSamolotowPaszerskich){
             Image obrazSamolotuCywilnegoImage = new Image("airpane.png");
@@ -131,7 +127,7 @@ public class Mapa {
         }
     }
 
-    public void tworzenieObrazuSamolotuWojskowego(){
+    public void updatowanieObrazuSamolotuWojskowego(){
         List <SamolotWojskowy> listaSamolotowWojskowych = baza.getListaSamolotowWojskowych();
         for(SamolotWojskowy samolotWojskowy : listaSamolotowWojskowych){
             Image obrazSamolotuWojskowegoImage = new Image("militaryAirplane.png");
@@ -147,7 +143,7 @@ public class Mapa {
         }
     }
 
-    public void tworzenieObrazuStatkuCywilnego(){
+    public void updatowanieObrazuStatkuCywilnego(){
         List <StatekCywilny> listaStatkowCywilnych = baza.getListaStatkowCywilnych();
         for(StatekCywilny statekCywilny : listaStatkowCywilnych){
             Image obrazStatkuCywilnego = new Image("cruiseShip.png");
@@ -164,7 +160,7 @@ public class Mapa {
         }
     }
 
-    public void tworzenieObrazuLotniskowca(){
+    public void updatowanieObrazuLotniskowca(){
         List <Lotniskowiec> listaLotniskowcow = baza.getListaLotniskowcow();
         for(Lotniskowiec lotniskowiec : listaLotniskowcow){
             Image obrazLotniskowca = new Image("militaryShip.png");
@@ -178,6 +174,34 @@ public class Mapa {
             lotniskowiecGroup.getChildren().add(imageViewLotniskowca);
             clickEventObiekt(imageViewLotniskowca);
         }
+    }
+
+    public void tworzenieObrazuSamolotuCywilnego(SamolotPasazerski samolotPasazerski){
+        Image obrazSamolotuCywilnegoImage = new Image("airpane.png");
+        imageViewSamolotuCywilnego = new ImageView(obrazSamolotuCywilnegoImage);
+        int polozenieX = samolotPasazerski.getAktualnePolozenieX();
+        int polozenieY = samolotPasazerski.getAktualnePolozenieY();
+        imageViewSamolotuCywilnego.setX(polozenieX);
+        imageViewSamolotuCywilnego.setY(polozenieY);
+        imageViewSamolotuCywilnego.setFitHeight(25);
+        imageViewSamolotuCywilnego.setFitWidth(25);
+        samolotCywilnyGroup.getChildren().add(imageViewSamolotuCywilnego);
+        clickEventObiekt(imageViewSamolotuCywilnego);
+
+    }
+
+    public void tworzenieObrazuSamolotuWojskowego(SamolotWojskowy samolotWojskowy){
+        Image obrazSamolotuWojskowegoImage = new Image("militaryAirplane.png");
+        imageViewSamolotuWojskowego = new ImageView(obrazSamolotuWojskowegoImage);
+        int polozenieX = samolotWojskowy.getAktualnePolozenieX();
+        int polozenieY = samolotWojskowy.getAktualnePolozenieY();
+        imageViewSamolotuWojskowego.setX(polozenieX);
+        imageViewSamolotuWojskowego.setY(polozenieY);
+        imageViewSamolotuWojskowego.setFitHeight(25);
+        imageViewSamolotuWojskowego.setFitWidth(25);
+        samolotWojskowyGroup.getChildren().add(imageViewSamolotuWojskowego);
+        clickEventObiekt(imageViewSamolotuWojskowego);
+
     }
 
     public void clearPasazerski(){
@@ -206,19 +230,20 @@ public class Mapa {
         });
     }
 
-    public void przenoszenieObiektu(int aktualneX, int aktualneY, int doceloweX, int doceloweY, ImageView imageView){
+    public void przenoszenieObiektu(int aktualneX, int aktualneY, int doceloweX, int doceloweY, ImageView imageView, double czasPodrozy){
         Path path = new Path();
         MoveTo moveTo = new MoveTo(aktualneX, aktualneY);
         CubicCurveTo cubicCurveTo = new CubicCurveTo(doceloweX, doceloweY, aktualneX, aktualneY, doceloweX, doceloweY);
         path.getElements().add(moveTo);
         path.getElements().add(cubicCurveTo);
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(2000));
+        pathTransition.setDuration(Duration.millis(czasPodrozy));
         pathTransition.setNode(imageView);
         pathTransition.setPath(path);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setCycleCount(1);
         pathTransition.setAutoReverse(false);
+
         pathTransition.statusProperty().addListener(new ChangeListener<Animation.Status>() {
             @Override
             public void changed(ObservableValue<? extends Animation.Status> observableValue, Animation.Status status, Animation.Status newValue) {

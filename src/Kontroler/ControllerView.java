@@ -9,7 +9,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -339,8 +338,6 @@ public class ControllerView{
         liczbaPersonelu = Integer.parseInt(liczbaPersoneluTextField.getText());
         aktualnePaliwo = Integer.parseInt(aktualnePaliwoTextField.getText());
         maksymalnePaliwo = Integer.parseInt(maksymalnePaliwoTextField.getText());
-        //aktualnePolozenieX = Integer.parseInt(aktualnePolozenieXTextField.getText());
-        //aktualnePolozenieY = Integer.parseInt(aktualnePolozenieYTextField.getText());
         id = Integer.parseInt(idTextField.getText());
         trasa = trasaTextField.getText();
         int index = baza.listaNazwLotniskCywilnych.indexOf(trasa);
@@ -365,6 +362,7 @@ public class ControllerView{
         maksymalnaPredkosc = Integer.parseInt(maksymalnaPredkoscTextField.getText());
         aktualnePaliwo = Integer.parseInt(aktualnePaliwoTextField.getText());
         maksymalnePaliwo = Integer.parseInt(maksymalnePaliwoTextField.getText());
+        trasa = trasaTextField.getText();
         int index = baza.listaNazwLotniskWojskowych.indexOf(trasa);
         for (int i = 0; i < baza.listaKoordynatowLotniskWojskowych.size(); i++){
             if(i==index){
@@ -372,11 +370,15 @@ public class ControllerView{
                 aktualnePolozenieY = baza.listaKoordynatowLotniskWojskowych.get(i).get(1);
             }
         }
-        //aktualnePolozenieX = Integer.parseInt(aktualnePolozenieXTextField.getText());
-        //aktualnePolozenieY = Integer.parseInt(aktualnePolozenieYTextField.getText());
-        id = Integer.parseInt(idTextField.getText());
-        trasa = trasaTextField.getText();
         miejsceLadowania = miejsceLadowaniaTextField.getText();
+        int index2 = baza.listaNazwLotniskWojskowych.indexOf(miejsceLadowania);
+        for (int i = 0; i < baza.listaKoordynatowLotniskWojskowych.size(); i++){
+            if(i==index2){
+                docelowePolozenieX = baza.listaKoordynatowLotniskWojskowych.get(i).get(0);
+                docelowePolozenieY = baza.listaKoordynatowLotniskWojskowych.get(i).get(1);
+            }
+        }
+        id = Integer.parseInt(idTextField.getText());
         typUzbrojenia = typUzbrojeniaTextField.getText();
 
     }
@@ -414,13 +416,29 @@ public class ControllerView{
                         int polozenieY = samolotPasazerski.getAktualnePolozenieY();
                         int polozenieCeluX = samolotPasazerski.getDocelowePolozenieX();
                         int polozenieCeluY = samolotPasazerski.getDocelowePolozenieY();
-                        mapa.przenoszenieObiektu(polozenieX, polozenieY, polozenieCeluX, polozenieCeluY, mapa.imageViewSamolotuCywilnego);
+                        int maksymalnaPredkosc = samolotPasazerski.getMaksymalnaPredkosc();
+
+                        int dlugoscTrasy = baza.obliczanieDlugosciTrasy(polozenieX, polozenieY, polozenieCeluX, polozenieCeluY);
+                        double czasPodrozy = dlugoscTrasy * 100000 / maksymalnaPredkosc;
+                        mapa.tworzenieObrazuSamolotuCywilnego(samolotPasazerski);
+                        mapa.przenoszenieObiektu(polozenieX, polozenieY, polozenieCeluX, polozenieCeluY, mapa.imageViewSamolotuCywilnego, czasPodrozy);
                     }
                 }
                 else if(radioButtonSamolotWojskowy.isSelected()){
-                    pobieranieDanychSamolotWojskowy();
-                    List <SamolotWojskowy> w = baza.getListaSamolotowWojskowych();
-                    System.out.println(w);
+                    final int index = listViewSamolotWojskowy.getSelectionModel().getSelectedIndex();
+                    if (index != -1) {
+                        SamolotWojskowy samolotWojskowy = listViewSamolotWojskowy.getSelectionModel().getSelectedItem();
+                        int polozenieX = samolotWojskowy.getAktualnePolozenieX();
+                        int polozenieY = samolotWojskowy.getAktualnePolozenieY();
+                        int polozenieCeluX = samolotWojskowy.getDocelowePolozenieX();
+                        int polozenieCeluY = samolotWojskowy.getDocelowePolozenieY();
+                        int maksymalnaPredkosc = samolotWojskowy.getMaksymalnaPredkosc();
+
+                        int dlugoscTrasy = baza.obliczanieDlugosciTrasy(polozenieX, polozenieY, polozenieCeluX, polozenieCeluY);
+                        double czasPodrozy = dlugoscTrasy * 100000 / maksymalnaPredkosc;
+                        mapa.tworzenieObrazuSamolotuWojskowego(samolotWojskowy);
+                        mapa.przenoszenieObiektu(polozenieX, polozenieY, polozenieCeluX, polozenieCeluY, mapa.imageViewSamolotuWojskowego, czasPodrozy);
+                    }
                 }
                 else if(radioButtonStatekPasazerski.isSelected()){
                     pobieranieDanychStatekPasazerski();
@@ -435,6 +453,7 @@ public class ControllerView{
             }
         });
     }
+
 
     public void dzialanieGuzikaUsun(){
         List <SamolotPasazerski> listaSamolotowPasazerskich = baza.getListaSamolotowPasazerskich();
@@ -458,7 +477,7 @@ public class ControllerView{
                         listaSamolotowPasazerskich.remove(index);
                         baza.setListaSamolotowPasazerskich(listaSamolotowPasazerskich);
                         mapa.clearPasazerski();
-                        mapa.tworzenieObrazuSamolotuCywilnego();
+                        mapa.updatowanieObrazuSamolotuCywilnego();
                         System.out.println("Usunięto samolot pasażerski: " + doUsuniecia);
                     }
                 }
@@ -476,7 +495,7 @@ public class ControllerView{
                         listaSamolotowWojskowych.remove(index);
                         baza.setListaSamolotowWojskowych(listaSamolotowWojskowych);
                         mapa.clearWojskowy();
-                        mapa.tworzenieObrazuSamolotuWojskowego();
+                        mapa.updatowanieObrazuSamolotuWojskowego();
                         System.out.println("Usunięto samolot wojskowych: " + doUsuniecia);
                     }
                 }
@@ -494,7 +513,7 @@ public class ControllerView{
                         listaStatkowCywilnych.remove(index);
                         baza.setListaStatkowCywilnych(listaStatkowCywilnych);
                         mapa.clearCywilny();
-                        mapa.tworzenieObrazuStatkuCywilnego();
+                        mapa.updatowanieObrazuStatkuCywilnego();
                         System.out.println("Usunięto samolot wojskowych: " + doUsuniecia);
                     }
                 }
@@ -511,7 +530,7 @@ public class ControllerView{
                         listaLotniskowcow.remove(index);
                         baza.setListaLotniskowcow(listaLotniskowcow);
                         mapa.clearLotniskowiec();
-                        mapa.tworzenieObrazuLotniskowca();
+                        mapa.updatowanieObrazuLotniskowca();
                         System.out.println("Usunięto Lotniskowiec: " + doUsuniecia);
                     }
                 }
@@ -530,17 +549,15 @@ public class ControllerView{
                     listaSamolotowPasazerskich.add(p);
                     listViewSamolotPasazerski.getItems().add(p);
                     baza.setListaSamolotowPasazerskich(listaSamolotowPasazerskich);
-                    mapa.tworzenieObrazuSamolotuCywilnego();
 
                 }
                 else if(radioButtonSamolotWojskowy.isSelected()){
                     pobieranieDanychSamolotWojskowy();
-                    SamolotWojskowy w = new SamolotWojskowy(aktualnePaliwo, maksymalnePaliwo, maksymalnaPredkosc, trasa, aktualnePolozenieX, aktualnePolozenieY, miejsceLadowania, id, typUzbrojenia);
+                    SamolotWojskowy w = new SamolotWojskowy(aktualnePaliwo, maksymalnePaliwo, maksymalnaPredkosc, trasa, aktualnePolozenieX, aktualnePolozenieY, miejsceLadowania, id, typUzbrojenia, docelowePolozenieX, docelowePolozenieY);
                     List <SamolotWojskowy> listaSamolotowWojskowych = baza.getListaSamolotowWojskowych();
                     listaSamolotowWojskowych.add(w);
                     listViewSamolotWojskowy.getItems().add(w);
                     baza.setListaSamolotowWojskowych(listaSamolotowWojskowych);
-                    mapa.tworzenieObrazuSamolotuWojskowego();
 
                 }
 
@@ -551,7 +568,7 @@ public class ControllerView{
                     listaStatkowCywilnych.add(s);
                     listViewStatekCywilny.getItems().add(s);
                     baza.setListaStatkowCywilnych(listaStatkowCywilnych);
-                    mapa.tworzenieObrazuStatkuCywilnego();
+                    mapa.updatowanieObrazuStatkuCywilnego();
 
 
                 }
@@ -562,13 +579,10 @@ public class ControllerView{
                     listaLotniskowcow.add(l);
                     listViewLotniskowiec.getItems().add(l);
                     baza.setListaLotniskowcow(listaLotniskowcow);
-                    mapa.tworzenieObrazuLotniskowca();
+                    mapa.updatowanieObrazuLotniskowca();
                 }
             }
         });
     }
 
-    public void test(){
-
-    }
 }
