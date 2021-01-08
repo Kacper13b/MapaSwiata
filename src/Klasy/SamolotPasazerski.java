@@ -1,5 +1,12 @@
 package Klasy;
 
+
+import Kontroler.Baza;
+import Kontroler.ControllerView;
+import Kontroler.Mapa;
+
+import java.util.List;
+
 public class SamolotPasazerski extends Samolot {
 
     private int liczbaPasazerow;
@@ -14,6 +21,10 @@ public class SamolotPasazerski extends Samolot {
     private int id;
     private int docelowePolozenieX;
     private int docelowePolozenieY;
+
+    public Baza baza;
+    public ControllerView controllerView;
+    public Mapa mapa;
 
 
     public SamolotPasazerski(int liczbaPasazerow, int maksymalnaPredkosc, int liczbaPersonelu, int aktualnePaliwo, int maksymalnePaliwo, String trasa, int aktualnePolozenieX, int aktualnePolozenieY, String miejsceLadowania, int id, int docelowePolozenieX, int docelowePolozenieY) {
@@ -104,11 +115,11 @@ public class SamolotPasazerski extends Samolot {
         this.miejsceLadowania = miejsceLadowania;
     }
 
-    public int getId() {
+    public int getIdSamolotu() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setIdSamolotu(int id) {
         this.id = id;
     }
 
@@ -130,22 +141,22 @@ public class SamolotPasazerski extends Samolot {
 
     //methods
 
-    public void startuj(){
+    public void startuj(){}
 
-    }
 
     public void laduj(){
-
     }
 
     public int tankuj(int akt_paliwo){
 
         int nowe_akt_paliwo = maksymalnePaliwo;
+        System.out.println("Zatankowano do pełna!");
         return nowe_akt_paliwo;
+
     }
 
     public void zglosWade(){
-
+        System.out.println("Wada Zgłoszona");
     }
 
     public void ladujAwaryjnie(){

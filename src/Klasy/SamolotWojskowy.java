@@ -84,11 +84,11 @@ public class SamolotWojskowy extends Samolot {
         this.miejsceLadowania = miejsceLadowania;
     }
 
-    public int getId() {
+    public int getIdSamolotu() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setIdSamolotu(int id) {
         this.id = id;
     }
 
@@ -127,11 +127,13 @@ public class SamolotWojskowy extends Samolot {
     }
 
     public int tankuj(int akt_paliwo){
-        return maksymalnePaliwo;
+        int nowe_akt_paliwo = maksymalnePaliwo;
+        System.out.println("Zatankowano do pełna!");
+        return nowe_akt_paliwo;
     }
 
     public void zglosWade(){
-
+        System.out.println("Wada Zgłoszona");
     }
 
     public void ladujAwaryjnie(){

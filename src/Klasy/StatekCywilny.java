@@ -69,11 +69,11 @@ public class StatekCywilny extends Statek {
         this.aktualnePolozenieY = aktualnePolozenieY;
     }
 
-    public int getId() {
+    public int getId2() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId2(int id) {
         this.id = id;
     }
 

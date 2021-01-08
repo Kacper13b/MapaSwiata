@@ -1,6 +1,6 @@
 package Klasy;
 
-public abstract class Lotnisko {
+public abstract class Lotnisko  {
 
     public void wpuscSamolot(){};
 

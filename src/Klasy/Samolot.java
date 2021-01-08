@@ -1,6 +1,7 @@
 package Klasy;
+import Kontroler.*;
 
-public abstract class Samolot {
+public abstract class Samolot extends Thread {
 
     public abstract void startuj();
 

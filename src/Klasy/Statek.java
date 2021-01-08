@@ -1,6 +1,6 @@
 package Klasy;
 
-public abstract class Statek {
+public abstract class Statek extends Thread {
 
     public abstract void plynDo();
 
