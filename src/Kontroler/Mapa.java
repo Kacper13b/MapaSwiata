@@ -120,7 +120,6 @@ public class Mapa {
         imageViewSamolotuCywilnego.setFitHeight(25);
         imageViewSamolotuCywilnego.setFitWidth(25);
         samolotCywilnyGroup.getChildren().add(imageViewSamolotuCywilnego);
-        clickEventObiekt(imageViewSamolotuCywilnego);
 
     }
 
@@ -164,21 +163,21 @@ public class Mapa {
         clickEventObiekt(imageViewLotniskowca);
     }
 
-    public void clearPasazerski(){
-        samolotCywilnyGroup.getChildren().clear();
-    }
-
-    public void clearWojskowy(){
-        samolotWojskowyGroup.getChildren().clear();
-    }
-
-    public void clearCywilny(){
-        statekCywilnyGroup.getChildren().clear();
-    }
-
-    public void clearLotniskowiec(){
-        lotniskowiecGroup.getChildren().clear();
-    }
+//    public void clearPasazerski(){
+//        samolotCywilnyGroup.getChildren().clear();
+//    }
+//
+//    public void clearWojskowy(){
+//        samolotWojskowyGroup.getChildren().clear();
+//    }
+//
+//    public void clearCywilny(){
+//        statekCywilnyGroup.getChildren().clear();
+//    }
+//
+//    public void clearLotniskowiec(){
+//        lotniskowiecGroup.getChildren().clear();
+//    }
 
     public void clickEventObiekt(ImageView image){
         image.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
@@ -190,7 +189,37 @@ public class Mapa {
         });
     }
 
-    public void przenoszenieObiektuPasazerski(int aktualneX, int aktualneY, int doceloweX, int doceloweY, ImageView imageView, double czasPodrozy, SamolotPasazerski samolotPasazerski){
+    public void przenoszenieObiektuPasazerski(int aktualneX, int aktualneY, int doceloweX, int doceloweY, ImageView imageView, double czasPodrozy, SamolotPasazerski samolotPasazerski, LotniskoCywilne doceloweLotnisko){
+        Path path = new Path();
+        MoveTo moveTo = new MoveTo(aktualneX, aktualneY);
+        LineTo lineTo = new LineTo(doceloweX, doceloweY);
+        path.getElements().addAll(moveTo, lineTo);
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.millis(czasPodrozy));
+        pathTransition.setNode(imageView);
+        pathTransition.setPath(path);
+        pathTransition.setOrientation(PathTransition.OrientationType.NONE);
+        pathTransition.setAutoReverse(false);
+        pathTransition.setCycleCount(1);
+
+        pathTransition.statusProperty().addListener(new ChangeListener<Animation.Status>() {
+            @Override
+            public void changed(ObservableValue<? extends Animation.Status> observableValue, Animation.Status status, Animation.Status newValue) {
+                if(newValue== Animation.Status.STOPPED){
+                    imageView.setImage(null);
+                    baza.wyswietlInfoPasazerski(aktualneX, aktualneY, samolotPasazerski);
+                    int aktualnePaliwo = samolotPasazerski.getAktualnePaliwo();
+                    samolotPasazerski.setAktualnePaliwo(samolotPasazerski.tankuj(aktualnePaliwo));
+                    doceloweLotnisko.setZapelnienie(doceloweLotnisko.getZapelnienie() + 1);
+                    samolotPasazerski.setAktualnePolozenieX(doceloweX);
+                    samolotPasazerski.setAktualnePolozenieY(doceloweY);
+                }
+            }
+        });
+        pathTransition.play();
+    }
+
+    public void przenoszenieObiektuWojskowy(int aktualneX, int aktualneY, int doceloweX, int doceloweY, ImageView imageView, double czasPodrozy, SamolotWojskowy samolotWojskowy, LotniskoWojskowe doceloweLotnisko){
         Path path = new Path();
         MoveTo moveTo = new MoveTo(aktualneX, aktualneY);
         LineTo lineTo = new LineTo(doceloweX, doceloweY);
@@ -208,39 +237,12 @@ public class Mapa {
             public void changed(ObservableValue<? extends Animation.Status> observableValue, Animation.Status status, Animation.Status newValue) {
                 if(newValue== Animation.Status.STOPPED){
                     imageView.setImage(null);
-                    baza.wyswietlInfoPasazerski(aktualneX, aktualneY, samolotPasazerski);
-                    int aktualnePaliwo = samolotPasazerski.getAktualnePaliwo();
-                    samolotPasazerski.setAktualnePaliwo(samolotPasazerski.tankuj(aktualnePaliwo));
-
-
-                }
-            }
-        });
-        pathTransition.play();
-
-    }
-
-    public void przenoszenieObiektuWojskowy(int aktualneX, int aktualneY, int doceloweX, int doceloweY, ImageView imageView, double czasPodrozy, SamolotWojskowy samolotWojskowy){
-        Path path = new Path();
-        MoveTo moveTo = new MoveTo(aktualneX, aktualneY);
-        LineTo lineTo = new LineTo(doceloweX, doceloweY);
-        path.getElements().addAll(moveTo, lineTo);
-        PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(3000));
-        pathTransition.setNode(imageView);
-        pathTransition.setPath(path);
-        pathTransition.setOrientation(PathTransition.OrientationType.NONE);
-        pathTransition.setCycleCount(1);
-        pathTransition.setAutoReverse(false);
-
-        pathTransition.statusProperty().addListener(new ChangeListener<Animation.Status>() {
-            @Override
-            public void changed(ObservableValue<? extends Animation.Status> observableValue, Animation.Status status, Animation.Status newValue) {
-                if(newValue== Animation.Status.STOPPED){
-                    imageView.setImage(null);
                     baza.wyswietlInfoWojskowy(aktualneX, aktualneY, samolotWojskowy);
                     int aktualnePaliwo = samolotWojskowy.getAktualnePaliwo();
                     samolotWojskowy.setAktualnePaliwo(samolotWojskowy.tankuj(aktualnePaliwo));
+                    doceloweLotnisko.setZapelnienie(doceloweLotnisko.getZapelnienie() + 1);
+                    samolotWojskowy.setAktualnePolozenieX(doceloweX);
+                    samolotWojskowy.setAktualnePolozenieY(doceloweY);
 
                 }
             }
@@ -277,8 +279,6 @@ public class Mapa {
         for(int i=1; i < baza.listaPunktowTrasMorskich.size(); i++){
             LineTo lineTo = new LineTo(baza.listaPunktowTrasMorskich.get(i).get(0), baza.listaPunktowTrasMorskich.get(i).get(1));
             path.getElements().add(lineTo);
-            lotniskowiec.setAktualnePolozenieX(baza.listaPunktowTrasMorskich.get(i).get(0));
-            lotniskowiec.setAktualnePolozenieY(baza.listaPunktowTrasMorskich.get(i).get(1));
 
         }
         LineTo lineTo = new LineTo(baza.listaPunktowTrasMorskich.get(0).get(0), baza.listaPunktowTrasMorskich.get(0).get(1));
@@ -290,6 +290,17 @@ public class Mapa {
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setAutoReverse(false);
         pathTransition.setCycleCount(PathTransition.INDEFINITE);
+        //pathTransition.play();
+
+        pathTransition.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observableValue, Duration duration, Duration t1) {
+                double x = imageView.getTranslateX();
+                double y = imageView.getTranslateY();
+                lotniskowiec.setAktualnePolozenieX((int) x + 13);
+                lotniskowiec.setAktualnePolozenieY((int) y + 13);
+            }
+        });
         pathTransition.play();
 
     }

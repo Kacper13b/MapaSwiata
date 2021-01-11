@@ -91,6 +91,11 @@ public class ControllerView{
     private String firma;
     private String miasto;
 
+    public LotniskoCywilne aktualneLotniskoCywilne;
+    public LotniskoCywilne doceloweLotniskoCywilne;
+    public LotniskoWojskowe aktualneLotniskoWojskowe;
+    public LotniskoWojskowe doceloweLotniskoWojskowe;
+
 
 
     public ControllerView(Stage controllerWindow, Baza baza, Mapa mapa) {
@@ -196,23 +201,17 @@ public class ControllerView{
                         aktualnePaliwoTextField.setPromptText("Aktualna liczba paliwa w samolocie: ");
                         maksymalnePaliwoTextField = new TextField();
                         maksymalnePaliwoTextField.setPromptText("Maksymalna ilosc paliwa w samolocie: ");
-                        trasaTextField = new TextField();
-                        trasaTextField.setPromptText("Lotnisko z którego zaczyna lot");
                         miejsceLadowaniaTextField = new TextField();
                         miejsceLadowaniaTextField.setPromptText("Miejsce lądowania samolotu");
                         idTextField = new TextField();
                         idTextField.setPromptText("ID Samolotu");
-                        typUzbrojeniaTextField = new TextField();
-                        typUzbrojeniaTextField.setPromptText("Typ uzbrojenia samolotu");
 
                         maksymalnaPredkoscTextField.setFont(font);
                         aktualnePaliwoTextField.setFont(font);
                         maksymalnePaliwoTextField.setFont(font);
-                        trasaTextField.setFont(font);
                         miejsceLadowaniaTextField.setFont(font);
                         idTextField.setFont(font);
-                        typUzbrojeniaTextField.setFont(font);
-                        srodek.getChildren().addAll(samolotWojskowyText, maksymalnaPredkoscTextField, aktualnePaliwoTextField, maksymalnePaliwoTextField, trasaTextField, miejsceLadowaniaTextField, idTextField, typUzbrojeniaTextField);
+                        srodek.getChildren().addAll(samolotWojskowyText, maksymalnaPredkoscTextField, aktualnePaliwoTextField, maksymalnePaliwoTextField, miejsceLadowaniaTextField, idTextField);
 
                     }
                     else if(radioButtonStatekPasazerski.isSelected()){
@@ -260,10 +259,10 @@ public class ControllerView{
                     }
                     else if(radioButtonInfo.isSelected()){
                         srodek.getChildren().clear();
-                        infoCywilne = new Text("Dostepne lotniska cywilne:\nWarszawa\nMelbourne\nToronto\nBuenos Aires\nAleksandria");
+                        infoCywilne = new Text("Dostepne lotniska cywilne:\nWarszawa, pojemność - 3\nMelbourne, pojemność - 5\nToronto, pojemność - 2\nBuenos Aires, pojemność - 5\nAleksandria, pojemność - 4");
                         infoCywilne.setFont(Font.font("Verdana",16));
                         infoCywilne.setTextAlignment(TextAlignment.LEFT);
-                        infoWojskowe = new Text("Dostępne lotniska wojskowe:\nChabarowsk\nMoskwa\nPekin\nKapsztad\nLos Angeles");
+                        infoWojskowe = new Text("Dostępne lotniska wojskowe:\nChabarowsk pojemność - 5\nMoskwa pojemność - 3\nPekin pojemność - 2\nKapsztad pojemność - 3\nLos Angeles pojemność - 4");
                         infoWojskowe.setFont(Font.font("Verdana",16));
                         infoWojskowe.setTextAlignment(TextAlignment.LEFT);
                         srodek.getChildren().addAll(infoCywilne,infoWojskowe);
@@ -326,12 +325,14 @@ public class ControllerView{
         int index2 = baza.listaNazwLotniskCywilnych.indexOf(miejsceLadowania);
         for (int i = 0; i < baza.listaKoordynatowLotniskCywilnych.size(); i++){
             if(i==index){
+                aktualneLotniskoCywilne = baza.getListaLotniskCywilnych().get(i);
                 aktualnePolozenieX = baza.listaKoordynatowLotniskCywilnych.get(i).get(0);
                 aktualnePolozenieY = baza.listaKoordynatowLotniskCywilnych.get(i).get(1);
             }
         }
         for (int j = 0; j < baza.listaKoordynatowLotniskCywilnych.size(); j++){
             if(j==index2){
+                doceloweLotniskoCywilne = baza.getListaLotniskCywilnych().get(j);
                 docelowePolozenieX = baza.listaKoordynatowLotniskCywilnych.get(j).get(0);
                 docelowePolozenieY = baza.listaKoordynatowLotniskCywilnych.get(j).get(1);
             }
@@ -343,29 +344,22 @@ public class ControllerView{
         maksymalnaPredkosc = Integer.parseInt(maksymalnaPredkoscTextField.getText());
         aktualnePaliwo = Integer.parseInt(aktualnePaliwoTextField.getText());
         maksymalnePaliwo = Integer.parseInt(maksymalnePaliwoTextField.getText());
-        trasa = trasaTextField.getText();
         if (aktualnePaliwo > maksymalnePaliwo){
             maksymalnaPredkosc = 0;
             System.out.println("Błąd przy podawaniu paliwa - samlot nie poleci ;(");
-        }
-        int index = baza.listaNazwLotniskWojskowych.indexOf(trasa);
-        for (int i = 0; i < baza.listaKoordynatowLotniskWojskowych.size(); i++){
-            if(i==index){
-                aktualnePolozenieX = baza.listaKoordynatowLotniskWojskowych.get(i).get(0);
-                aktualnePolozenieY = baza.listaKoordynatowLotniskWojskowych.get(i).get(1);
-            }
         }
         miejsceLadowania = miejsceLadowaniaTextField.getText();
         int index2 = baza.listaNazwLotniskWojskowych.indexOf(miejsceLadowania);
         for (int j = 0; j < baza.listaKoordynatowLotniskWojskowych.size(); j++){
             if(j==index2){
+                doceloweLotniskoWojskowe = baza.getListaLotniskWojskowch().get(j);
                 docelowePolozenieX = baza.listaKoordynatowLotniskWojskowych.get(j).get(0);
                 docelowePolozenieY = baza.listaKoordynatowLotniskWojskowych.get(j).get(1);
             }
         }
-        for (LotniskoWojskowe lotniskoWojskowe : baza.getListaLotniskWojskowch()){
-            if(aktualnePolozenieX == lotniskoWojskowe.getPolozenieX() && aktualnePolozenieY == lotniskoWojskowe.getPolozenieY()){
-                typUzbrojenia = lotniskoWojskowe.getTypUzbrojenia();
+        for (Lotniskowiec lotniskowiec : baza.getListaLotniskowcow()){
+            if(aktualnePolozenieX == lotniskowiec.getAktualnePolozenieX() && aktualnePolozenieY == lotniskowiec.getAktualnePolozenieY()){
+                typUzbrojenia = lotniskowiec.getTypUzbrojenia();
             }
 
         }
@@ -407,15 +401,22 @@ public class ControllerView{
                         int maksymalnaPredkosc = samolotPasazerski.getMaksymalnaPredkosc();
 
                         int dlugoscTrasy = baza.obliczanieDlugosciTrasy(polozenieX, polozenieY, polozenieCeluX, polozenieCeluY);
-                        int potrzbnePaliwo = dlugoscTrasy/10;
-                        samolotPasazerski.setAktualnePaliwo(samolotPasazerski.getAktualnePaliwo() - potrzbnePaliwo);
+                        int potrzebnePaliwo = dlugoscTrasy/10;
+                        samolotPasazerski.setAktualnePaliwo(samolotPasazerski.getAktualnePaliwo() - potrzebnePaliwo);
                         double czasPodrozy = dlugoscTrasy * 1000 / maksymalnaPredkosc;
-                        mapa.tworzenieObrazuSamolotuCywilnego(samolotPasazerski);
+
                         if(samolotPasazerski.getAktualnePaliwo() < 0){
-                            System.out.println("Za mało paliwa samolot nie doleci\nWymagana ilość paliwa: "+ potrzbnePaliwo);
+                            System.out.println("Za mało paliwa samolot nie doleci\nWymagana ilość paliwa: "+ potrzebnePaliwo);
+
+                        }
+                        else if(doceloweLotniskoCywilne.getZapelnienie() >= doceloweLotniskoCywilne.getPojemnosc()){
+                            System.out.println("Docelowe Lotnisko zapełnione, poczekaj na zwolnienia miejsca");
+                            samolotPasazerski.setAktualnePaliwo(samolotPasazerski.getMaksymalnePaliwo());
                         }
                         else {
-                            mapa.przenoszenieObiektuPasazerski(polozenieX, polozenieY, polozenieCeluX, polozenieCeluY, mapa.imageViewSamolotuCywilnego, czasPodrozy, samolotPasazerski);
+                            mapa.tworzenieObrazuSamolotuCywilnego(samolotPasazerski);
+                            aktualneLotniskoCywilne.setZapelnienie(aktualneLotniskoCywilne.getZapelnienie() - 1);
+                            mapa.przenoszenieObiektuPasazerski(polozenieX, polozenieY, polozenieCeluX, polozenieCeluY, mapa.imageViewSamolotuCywilnego, czasPodrozy, samolotPasazerski, doceloweLotniskoCywilne);
                             mapa.clickEventObiekt(mapa.imageViewSamolotuCywilnego);
                         }
 
@@ -425,16 +426,31 @@ public class ControllerView{
                     final int index = listViewSamolotWojskowy.getSelectionModel().getSelectedIndex();
                     if (index != -1) {
                         SamolotWojskowy samolotWojskowy = listViewSamolotWojskowy.getSelectionModel().getSelectedItem();
-                        int polozenieX = samolotWojskowy.getAktualnePolozenieX();
-                        int polozenieY = samolotWojskowy.getAktualnePolozenieY();
+                        for(Lotniskowiec lotniskowiec : baza.getListaLotniskowcow()){
+                            samolotWojskowy.setAktualnePolozenieX(lotniskowiec.getAktualnePolozenieX());
+                            samolotWojskowy.setAktualnePolozenieY(lotniskowiec.getAktualnePolozenieY());
+                        }
                         int polozenieCeluX = samolotWojskowy.getDocelowePolozenieX();
                         int polozenieCeluY = samolotWojskowy.getDocelowePolozenieY();
                         int maksymalnaPredkosc = samolotWojskowy.getMaksymalnaPredkosc();
 
-                        int dlugoscTrasy = baza.obliczanieDlugosciTrasy(polozenieX, polozenieY, polozenieCeluX, polozenieCeluY);
+                        int dlugoscTrasy = baza.obliczanieDlugosciTrasy(samolotWojskowy.getAktualnePolozenieX(), samolotWojskowy.getAktualnePolozenieY(), polozenieCeluX, polozenieCeluY);
                         double czasPodrozy = dlugoscTrasy * 1000 / maksymalnaPredkosc;
-                        mapa.tworzenieObrazuSamolotuWojskowego(samolotWojskowy);
-                        mapa.przenoszenieObiektuWojskowy(polozenieX, polozenieY, polozenieCeluX, polozenieCeluY, mapa.imageViewSamolotuWojskowego, czasPodrozy, samolotWojskowy);
+                        int potrzebnePaliwo = dlugoscTrasy/10;
+                        samolotWojskowy.setAktualnePaliwo(samolotWojskowy.getAktualnePaliwo() - potrzebnePaliwo);
+                        if(samolotWojskowy.getAktualnePaliwo() < 0){
+                            System.out.println("Za mało paliwa samolot nie doleci\nWymagana ilość paliwa: "+ potrzebnePaliwo);
+
+                        }
+                        else if(doceloweLotniskoWojskowe.getZapelnienie() >= doceloweLotniskoWojskowe.getPojemnosc()){
+                            System.out.println("Docelowe Lotnisko zapełnione, poczekaj na zwolnienia miejsca");
+                            samolotWojskowy.setAktualnePaliwo(samolotWojskowy.getMaksymalnePaliwo());
+                        }
+                        else {
+                            mapa.tworzenieObrazuSamolotuWojskowego(samolotWojskowy);
+                            mapa.przenoszenieObiektuWojskowy(samolotWojskowy.getAktualnePolozenieX(), samolotWojskowy.getAktualnePolozenieY(), polozenieCeluX, polozenieCeluY, mapa.imageViewSamolotuWojskowego, czasPodrozy, samolotWojskowy, doceloweLotniskoWojskowe);
+                            mapa.clickEventObiekt(mapa.imageViewSamolotuWojskowego);
+                        }
                     }
                 }
                 else if(radioButtonStatekPasazerski.isSelected()){
@@ -482,6 +498,12 @@ public class ControllerView{
                         listViewSamolotPasazerski.getItems().remove(index);
                         listViewSamolotPasazerski.getSelectionModel().select(nowyIndex);
                         SamolotPasazerski s = listaSamolotowPasazerskich.remove(index);
+                        if (s.getAktualnePolozenieX() == s.getDocelowePolozenieX() && s.getAktualnePolozenieY() == s.getDocelowePolozenieY()){
+                            doceloweLotniskoCywilne.setZapelnienie(doceloweLotniskoCywilne.getZapelnienie() - 1);
+                        }
+                        else {
+                            aktualneLotniskoCywilne.setZapelnienie(aktualneLotniskoCywilne.getZapelnienie() - 1);
+                        }
                         int Id = s.getIdSamolotu();
                         baza.setListaSamolotowPasazerskich(listaSamolotowPasazerskich);
                         try{
@@ -504,6 +526,13 @@ public class ControllerView{
                         listViewSamolotWojskowy.getItems().remove(index);
                         listViewSamolotWojskowy.getSelectionModel().select(nowyIndex);
                         SamolotWojskowy s = listaSamolotowWojskowych.remove(index);
+                        if (s.getAktualnePolozenieX() == s.getDocelowePolozenieX() && s.getAktualnePolozenieY() == s.getDocelowePolozenieY()){
+                            doceloweLotniskoWojskowe.setZapelnienie(doceloweLotniskoWojskowe.getZapelnienie() - 1);
+                        }
+                        else {
+                            aktualneLotniskoWojskowe.setZapelnienie(aktualneLotniskoWojskowe.getZapelnienie() - 1);
+                        }
+
                         int Id = s.getIdSamolotu();
                         baza.setListaSamolotowWojskowych(listaSamolotowWojskowych);
                         try{
@@ -572,11 +601,17 @@ public class ControllerView{
             public void handle(ActionEvent actionEvent) {
                 if (radioButtonSamolotPasazerski.isSelected()){
                     pobieranieDanychSamolotPasazerski();
-                    SamolotPasazerski p = new SamolotPasazerski(liczbaPasazerow, maksymalnaPredkosc, liczbaPersonelu, aktualnePaliwo, maksymalnePaliwo, trasa, aktualnePolozenieX, aktualnePolozenieY, miejsceLadowania, id, docelowePolozenieX, docelowePolozenieY);
-                    List <SamolotPasazerski> listaSamolotowPasazerskich = baza.getListaSamolotowPasazerskich();
-                    listaSamolotowPasazerskich.add(p);
-                    listViewSamolotPasazerski.getItems().add(p);
-                    baza.setListaSamolotowPasazerskich(listaSamolotowPasazerskich);
+                    if (aktualneLotniskoCywilne.getZapelnienie() >= aktualneLotniskoCywilne.getPojemnosc()){
+                        System.out.println("Lotnisko zapełnione, zwolnij miejsce!");
+                    }
+                    else{
+                        aktualneLotniskoCywilne.setZapelnienie(aktualneLotniskoCywilne.getZapelnienie() + 1);
+                        SamolotPasazerski p = new SamolotPasazerski(liczbaPasazerow, maksymalnaPredkosc, liczbaPersonelu, aktualnePaliwo, maksymalnePaliwo, trasa, aktualnePolozenieX, aktualnePolozenieY, miejsceLadowania, id, docelowePolozenieX, docelowePolozenieY);
+                        List <SamolotPasazerski> listaSamolotowPasazerskich = baza.getListaSamolotowPasazerskich();
+                        listaSamolotowPasazerskich.add(p);
+                        listViewSamolotPasazerski.getItems().add(p);
+                        baza.setListaSamolotowPasazerskich(listaSamolotowPasazerskich);
+                    }
 
                 }
                 else if(radioButtonSamolotWojskowy.isSelected()){

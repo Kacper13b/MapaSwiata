@@ -74,11 +74,11 @@ public class Baza {
 
 
     public void dodajLotniskaCywilne(){
-        LotniskoCywilne lotnisko1 = new LotniskoCywilne(700,100,3,1, "Warszawa");
-        LotniskoCywilne lotnisko2 = new LotniskoCywilne(1200,500,3,2, "Melbourne");
-        LotniskoCywilne lotnisko3 = new LotniskoCywilne(300,100,3,3, "Toronto");
-        LotniskoCywilne lotnisko4 = new LotniskoCywilne(400,500,3,4, "Buenos Aires");
-        LotniskoCywilne lotnisko5 = new LotniskoCywilne(740,200,3,5, "Aleksandria");
+        LotniskoCywilne lotnisko1 = new LotniskoCywilne(700,100, 0,3,1, "Warszawa");
+        LotniskoCywilne lotnisko2 = new LotniskoCywilne(1200,500, 0,5,2, "Melbourne");
+        LotniskoCywilne lotnisko3 = new LotniskoCywilne(300,100, 0,2,3, "Toronto");
+        LotniskoCywilne lotnisko4 = new LotniskoCywilne(400,500,0,5,4, "Buenos Aires");
+        LotniskoCywilne lotnisko5 = new LotniskoCywilne(740,200,0,4,5, "Aleksandria");
         listaLotniskCywilnych.add(lotnisko1);
         listaLotniskCywilnych.add(lotnisko2);
         listaLotniskCywilnych.add(lotnisko3);
@@ -112,11 +112,11 @@ public class Baza {
     }
 
     public void dodajLotniskaWojskowe(){
-        LotniskoWojskowe lotnisko1 = new LotniskoWojskowe(1100, 100, 10, 1, "Rakiety", "Chabarowsk");
-        LotniskoWojskowe lotnisko2 = new LotniskoWojskowe(775, 100, 10, 2, "Bombowce", "Moskwa");
-        LotniskoWojskowe lotnisko3 = new LotniskoWojskowe(1070, 150, 10, 3, "Bombowce", "Pekin");
-        LotniskoWojskowe lotnisko4 = new LotniskoWojskowe(700, 500, 10, 4, "Bombowce", "Kapsztad");
-        LotniskoWojskowe lotnisko5 = new LotniskoWojskowe(180, 180, 10, 5, "Bombowce", "Los Angeles");
+        LotniskoWojskowe lotnisko1 = new LotniskoWojskowe(1100, 100, 0,5, 1, "Rakiety", "Chabarowsk");
+        LotniskoWojskowe lotnisko2 = new LotniskoWojskowe(775, 100, 0,3, 2, "Bombowce", "Moskwa");
+        LotniskoWojskowe lotnisko3 = new LotniskoWojskowe(1070, 150, 0,2, 3, "Bombowce", "Pekin");
+        LotniskoWojskowe lotnisko4 = new LotniskoWojskowe(700, 500, 0,3, 4, "Myśliwce", "Kapsztad");
+        LotniskoWojskowe lotnisko5 = new LotniskoWojskowe(180, 180, 0,4, 5, "Myśliwce", "Los Angeles");
         listaLotniskWojskowch.add(lotnisko1);
         listaLotniskWojskowch.add(lotnisko2);
         listaLotniskWojskowch.add(lotnisko3);
@@ -208,8 +208,6 @@ public class Baza {
         listaPunktowTrasMorskich.add(list13);
         listaPunktowTrasMorskich.add(list14);
 
-
-
     }
 
 
@@ -243,6 +241,7 @@ public class Baza {
 
             }
     }
+
 
 
 

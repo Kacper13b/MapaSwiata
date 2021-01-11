@@ -5,13 +5,15 @@ public class LotniskoCywilne extends Lotnisko{
     private int polozenieX;
     private int polozenieY;
     private int pojemnosc;
+    private int zapelnienie;
     private int id;
     private String miasto;
 
-    public LotniskoCywilne(int polozenieX, int polozenieY, int pojemnosc, int id, String miasto) {
+    public LotniskoCywilne(int polozenieX, int polozenieY, int zapelnienie, int pojemnosc, int id, String miasto) {
         this.polozenieX = polozenieX;
         this.polozenieY = polozenieY;
         this.pojemnosc = pojemnosc;
+        this.zapelnienie = zapelnienie;
         this.id = id;
         this.miasto = miasto;
     }
@@ -56,6 +58,11 @@ public class LotniskoCywilne extends Lotnisko{
         this.miasto = miasto;
     }
 
+    public int getZapelnienie() {
+        return zapelnienie;
+    }
 
-
+    public void setZapelnienie(int zapelnienie) {
+        this.zapelnienie = zapelnienie;
+    }
 }
