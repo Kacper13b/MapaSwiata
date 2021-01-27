@@ -5,6 +5,10 @@ import Klasy.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Klasa Baza zawiera list wszystkich obiektów, nazw i koordynatów lotnisk cywilnych i wojskowych i listę punktów trasy morskiej.
+ */
+
 public class Baza {
     private List<LotniskoCywilne> listaLotniskCywilnych = new ArrayList<LotniskoCywilne>();
     private List<LotniskoWojskowe> listaLotniskWojskowch = new ArrayList<LotniskoWojskowe>();
@@ -72,7 +76,9 @@ public class Baza {
     }
 
 
-
+    /**
+     * metody dodaj.* wypełnia listy obiektami lotnisk i trasy morskiej
+     */
     public void dodajLotniskaCywilne(){
         LotniskoCywilne lotnisko1 = new LotniskoCywilne(700,100, 0,3,1, "Warszawa");
         LotniskoCywilne lotnisko2 = new LotniskoCywilne(1200,500, 0,5,2, "Melbourne");
@@ -210,12 +216,18 @@ public class Baza {
 
     }
 
-
+    /**
+     * metoda wyliczjąca długość wektora z punktu A do punktu B
+     */
     public int obliczanieDlugosciTrasy(int startoweX, int startoweY, int koncoweX, int koncoweY){
         int trasa = (int) Math.sqrt(Math.pow((koncoweX - startoweX),2) + Math.pow((koncoweY - startoweY),2));
         return trasa;
 
     }
+
+    /**
+     * metoda wysiwetlInfo wypisuje na konsoli krótką informacje po wylądowaniu samolut na lotnisku
+     */
 
     public void wyswietlInfoPasazerski(int startoweX, int startoweY, SamolotPasazerski samolotPasazerski) {
         int aktualneX = samolotPasazerski.getAktualnePolozenieX();

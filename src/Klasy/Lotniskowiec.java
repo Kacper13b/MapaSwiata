@@ -1,5 +1,10 @@
 package Klasy;
 
+/**
+ * Klasa Lotniskowca wraz z getterami i setterami
+ * Obiekt składa się z maksymalnej prędkości, akutalnych współrzędnych x i y, id, i typu uzbrojenia samolotów wojskowych które produkuje
+ */
+
 public class Lotniskowiec extends Statek {
 
     private int maksymalnaPredkosc;
@@ -58,22 +63,5 @@ public class Lotniskowiec extends Statek {
         this.typUzbrojenia = typUzbrojenia;
     }
 
-    //methods
-
-    public void plynDo(){
-
-    }
-
-    public void zmianaTrasy(){
-
-    }
-
-    public static void tworzSamolot(){
-
-    }
-
-    public static String wybierzUzbrojenie(){
-        return null;
-    }
 
 }

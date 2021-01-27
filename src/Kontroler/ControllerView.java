@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,6 +21,9 @@ import javafx.stage.Stage;
 
 import java.util.*;
 
+/**
+ * Klasa odpowiadająca za stworzenie panelu kontrolnego, jak i operacje związane między mapą a panelem kontrolnym
+ */
 
 public class ControllerView{
 
@@ -57,17 +61,12 @@ public class ControllerView{
     private Text infoCywilne;
     private Text infoWojskowe;
 
-
-
-
     private TextField liczbaPasazerowTextField;
     private TextField maksymalnaPredkoscTextField;
     private TextField liczbaPersoneluTextField;
     private TextField aktualnePaliwoTextField;
     private TextField maksymalnePaliwoTextField;
     private TextField trasaTextField;
-    private TextField aktualnePolozenieXTextField;
-    private TextField aktualnePolozenieYTextField;
     private TextField miejsceLadowaniaTextField;
     private TextField idTextField;
     private TextField typUzbrojeniaTextField;
@@ -89,7 +88,6 @@ public class ControllerView{
     private String typUzbrojenia;
     private int maksymalnaPojemnosc;
     private String firma;
-    private String miasto;
 
     public LotniskoCywilne aktualneLotniskoCywilne;
     public LotniskoCywilne doceloweLotniskoCywilne;
@@ -105,11 +103,13 @@ public class ControllerView{
         tworzenieOkna();
     }
 
+    /**
+     * Tworzenie okna panelu kontrolnego typu borderPane
+     */
     public void tworzenieOkna() {
         borderPane = new BorderPane();
         scene = new Scene(borderPane, 800, 550);
         controllerWindow.setTitle("Kontroler");
-        //controllerWindow.show();
         tworzeniePrawego();
         tworzenieSrodkowego();
         tworzenieDolnego();
@@ -124,6 +124,9 @@ public class ControllerView{
 
     }
 
+    /**
+     * Tworzenie prawej strony okna składającej się z radiobuttonów do wyboru obiektu
+     */
     public void tworzeniePrawego(){
         elementy = new VBox();
         radioButtonSamolotPasazerski = new RadioButton("Samolot Pasazerski");
@@ -144,6 +147,9 @@ public class ControllerView{
 
     }
 
+    /**
+     * Tworzenie środkowej części okna
+     */
     public void tworzenieSrodkowego(){
         srodek = new VBox();
         srodek.setPadding(new Insets(25));
@@ -154,6 +160,9 @@ public class ControllerView{
 
     }
 
+    /**
+     * metoda tworzenieTekstu odpowiada za wyświetlanie okien do wpisywania danych dla danego obiektu
+     */
     public void tworzenieTekstu(){
         grupaRadioButtonow.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
@@ -274,6 +283,10 @@ public class ControllerView{
 
     }
 
+    /**
+     * Metoda odpowiadająca za tworzenie guzików obsługi obiektów znajdujących się w dolnej części okna
+     */
+
     public void tworzenieDolnego(){
         guzikiTworzenia = new HBox();
         guzikiTworzenia.setSpacing(25);
@@ -290,6 +303,9 @@ public class ControllerView{
 
     }
 
+    /**
+     * Tworzenie lewej części okna - wyświetlanie listy obiektów
+     */
     public void tworzenieLewego() {
         lewy = new VBox();
         lewy.setSpacing(25);
@@ -306,8 +322,9 @@ public class ControllerView{
     }
 
 
-
-
+    /**
+     * Przetwarzanie danych wpisanych przez użytkownika na dane do stworzenia obiektu
+     */
     public void pobieranieDanychSamolotPasazerski(){
         liczbaPasazerow = Integer.parseInt(liczbaPasazerowTextField.getText());
         maksymalnaPredkosc = Integer.parseInt(maksymalnaPredkoscTextField.getText());
@@ -385,7 +402,11 @@ public class ControllerView{
 
     }
 
-
+    /**
+     * Opisuje działanie guzika rozpocznij lot
+     * Przy wybraniu danego obiektu pobiera potrzebne dane ze stworzonego obiektu i sprawdza czy obiekt spełnia wszystkie wymagania, aby rozpocząc lot
+     * Metoda implementująca lot w klasie Mapa
+     */
     public void dzialanieGuzikaRozpocznijLot(){
         rozpocznijLotButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -417,7 +438,7 @@ public class ControllerView{
                             mapa.tworzenieObrazuSamolotuCywilnego(samolotPasazerski);
                             aktualneLotniskoCywilne.setZapelnienie(aktualneLotniskoCywilne.getZapelnienie() - 1);
                             mapa.przenoszenieObiektuPasazerski(polozenieX, polozenieY, polozenieCeluX, polozenieCeluY, mapa.imageViewSamolotuCywilnego, czasPodrozy, samolotPasazerski, doceloweLotniskoCywilne);
-                            mapa.clickEventObiekt(mapa.imageViewSamolotuCywilnego);
+                            clickEventObiektPasazerski(mapa.imageViewSamolotuCywilnego, samolotPasazerski);
                         }
 
                     }
@@ -449,7 +470,7 @@ public class ControllerView{
                         else {
                             mapa.tworzenieObrazuSamolotuWojskowego(samolotWojskowy);
                             mapa.przenoszenieObiektuWojskowy(samolotWojskowy.getAktualnePolozenieX(), samolotWojskowy.getAktualnePolozenieY(), polozenieCeluX, polozenieCeluY, mapa.imageViewSamolotuWojskowego, czasPodrozy, samolotWojskowy, doceloweLotniskoWojskowe);
-                            mapa.clickEventObiekt(mapa.imageViewSamolotuWojskowego);
+                            clickEventObiektWojskowy(mapa.imageViewSamolotuWojskowego, samolotWojskowy);
                         }
                     }
                 }
@@ -477,7 +498,12 @@ public class ControllerView{
         });
     }
 
-
+    /**
+     * Opisuje działanie guzika usuń element
+     * Przy wybranym radiobuttonie danego obiektu wybieramy z listview obiekt danej klasy. Z bazy w danej liście usuwany jest obiekt o indeksie obiektu z listview, tak samo z imageview.
+     * Po usunięciu z listview wybrany autoamtycznie zostaje następny obiekt aby móc szybko usuwać kolejne obiekty
+     * guzik usuń zwalnia także miejsce z lotnisk w momencie usuwania
+     */
     public void dzialanieGuzikaUsun(){
         List <SamolotPasazerski> listaSamolotowPasazerskich = baza.getListaSamolotowPasazerskich();
         List <SamolotWojskowy> listaSamolotowWojskowych = baza.getListaSamolotowWojskowych();
@@ -548,7 +574,6 @@ public class ControllerView{
                 else if(radioButtonStatekPasazerski.isSelected()){
                     final int index = listViewStatekCywilny.getSelectionModel().getSelectedIndex();
                     if (index != -1){
-                        StatekCywilny doUsuniecia = listViewStatekCywilny.getSelectionModel().getSelectedItem();
 
                         final int nowyIndex = (index == listViewStatekCywilny.getItems().size() - 1)
                                 ? index - 1
@@ -587,14 +612,18 @@ public class ControllerView{
 
                             System.out.println("Usunięto Lotniskowiec o numerze ID - " + Id);
                         }
-                        ;
-
                     }
                 }
             }
         });
     }
 
+    /**
+     * Opisuje działanie guzika dodaj element
+     * Po wybraniu danego radiobuttona sprawdzamy czy wybrane lotnisko startowe ma wolne miejsce, jeśli nie na konsoli zostaje wypisana informacja i obiekt nie zostaje utworzony
+     * Jeśli lotnisko ma wolne miejsce zostaje utworzony nowy obiekt a zapełnienie lotniska zostaje zwiększone o 1
+     * lista i listview danego obeiktu zostają zaktualizowane
+     */
     public void dzialanieGuzikaDodaj(){
         dodajButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -643,6 +672,26 @@ public class ControllerView{
 
                 }
             }
+        });
+    }
+
+    /**
+     * Metoda opisująca działanie onClickEvent dla samolotów
+     * Na konsoli wyśiwetla jego ID i koordynaty lotniska na które leci
+     */
+    public void clickEventObiektPasazerski(ImageView image, SamolotPasazerski samolot){
+        image.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+            System.out.println("ID Samolotu " + samolot.getIdSamolotu());
+            System.out.println("Koordynaty na które leci samolot\nx - " + samolot.getDocelowePolozenieX() +" y - "+ samolot.getDocelowePolozenieY());
+            event.consume();
+        });
+    }
+
+    public void clickEventObiektWojskowy(ImageView image, SamolotWojskowy samolot){
+        image.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+            System.out.println("ID Samolotu " + samolot.getIdSamolotu());
+            System.out.println("Koordynaty na które leci samolot\nx - " + samolot.getDocelowePolozenieX() +" y - "+ samolot.getDocelowePolozenieY());
+            event.consume();
         });
     }
 

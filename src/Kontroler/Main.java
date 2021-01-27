@@ -1,9 +1,11 @@
 package Kontroler;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+/**
+ * Klasa Main do tworzenia okna mapy i panelu kontrolnego
+ */
 
 public class Main extends Application {
 

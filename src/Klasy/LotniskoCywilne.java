@@ -1,5 +1,9 @@
 package Klasy;
 
+/**
+ * Klasa Lotniska Cywilnego wraz z getterami i setterami
+ * Zawiera położenie x i y na mapie, akutalną ilość samolotów znajdujących się na lotnisku, maksymalną pojemność, id i miasto w jakim występuje
+ */
 public class LotniskoCywilne extends Lotnisko{
 
     private int polozenieX;

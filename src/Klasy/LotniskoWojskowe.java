@@ -1,5 +1,9 @@
 package Klasy;
 
+/**
+ * Klasa Lotniska wojskowego wraz z getterami i setterami
+ * Zawiera położenie x i y na mapie, akutalną ilość samolotów znajdujących się na lotnisku, maksymalną pojemność, id, typ uzbrojenia i miasto w jakim występuje
+ */
 public class LotniskoWojskowe extends Lotnisko{
 
     private int polozenieX;

@@ -1,5 +1,10 @@
 package Klasy;
 
+/**
+ * Klasa Lotniskowca wraz z getterami i setterami
+ * Obiekt składa się z maksymalnej pojemności pasażerów, liczby pasażerów, firmy, maksymalnej prędkości, akutalnych współrzędnych x i y, id
+ */
+
 public class StatekCywilny extends Statek {
 
     private int maksymalnaPojemnosc;
@@ -77,13 +82,5 @@ public class StatekCywilny extends Statek {
         this.id = id;
     }
 
-    //methods
 
-    public void plynDo(){
-
-    }
-
-    public void zmianaTrasy(){
-
-    }
 }

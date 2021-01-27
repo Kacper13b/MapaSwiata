@@ -7,6 +7,11 @@ import Kontroler.Mapa;
 
 import java.util.List;
 
+/**
+ * Klasa samolotu Pasażerskiego wraz z getterami i setterami
+ * Klasa składa się z liczby pasażerów, maksymalnej prędkości, liczby personelu, aktualnego i maksymalnego stanu paliwa, trasy - lotniska z którego zaczyna lot, startowych wartości x i y, miejsca lądowania - lotnisko na którym ląduje, id i wartości x i y lotniska na którym ląduje
+ * zawiera metodę tankuj zmieniającą stan akutalnego paliwa na stan maksymalnego paliwa
+ */
 public class SamolotPasazerski extends Samolot {
 
     private int liczbaPasazerow;
@@ -141,12 +146,6 @@ public class SamolotPasazerski extends Samolot {
 
     //methods
 
-    public void startuj(){}
-
-
-    public void laduj(){
-    }
-
     public int tankuj(int akt_paliwo){
 
         int nowe_akt_paliwo = maksymalnePaliwo;
@@ -155,19 +154,4 @@ public class SamolotPasazerski extends Samolot {
 
     }
 
-    public void zglosWade(){
-        System.out.println("Wada Zgłoszona");
-    }
-
-    public void ladujAwaryjnie(){
-
-    }
-
-    public void zmienTrase(){
-
-    }
-
-    public void zmienPasazerow(){
-
-    }
 }

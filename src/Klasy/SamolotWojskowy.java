@@ -1,4 +1,9 @@
 package Klasy;
+/**
+ * Klasa samolotu Wojskowego wraz z getterami i setterami
+ * Klasa składa się z maksymalnej prędkości, aktualnego i maksymalnego stanu paliwa, trasy - lotniskowca z którego zaczyna lot, startowych wartości x i y, miejsca lądowania - lotnisko na którym ląduje, id, wartości x i y lotniska na którym ląduje i typu uzbrojenia
+ * zawiera metodę tankuj zmieniającą stan akutalnego paliwa na stan maksymalnego paliwa
+ */
 
 public class SamolotWojskowy extends Samolot {
 
@@ -116,15 +121,6 @@ public class SamolotWojskowy extends Samolot {
         this.docelowePolozenieY = docelowePolozenieY;
     }
 
-    //methods
-
-    public void startuj(){
-
-    }
-
-    public void laduj(){
-
-    }
 
     public int tankuj(int akt_paliwo){
         int nowe_akt_paliwo = maksymalnePaliwo;
@@ -132,19 +128,4 @@ public class SamolotWojskowy extends Samolot {
         return nowe_akt_paliwo;
     }
 
-    public void zglosWade(){
-        System.out.println("Wada Zgłoszona");
-    }
-
-    public void ladujAwaryjnie(){
-
-    }
-
-    public void zmienTrase(){
-
-    }
-
-    public static String wybierzUzbrojenie(){
-        return "kkk";
-    }
 }

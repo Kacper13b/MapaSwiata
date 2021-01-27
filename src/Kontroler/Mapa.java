@@ -18,6 +18,9 @@ import javafx.util.Duration;
 
 import java.util.List;
 
+/**
+ * Klasa sceny mapy wraz z metodami obsługującymi imageview wszystkich obiektów
+ */
 public class Mapa {
 
 
@@ -39,16 +42,16 @@ public class Mapa {
     public ImageView imageViewLotniskowca;
 
 
-
-    private Scene scene;
-
     public Mapa(Stage mapaSwiata, Baza baza) {
         this.mapaSwiata = mapaSwiata;
         this.baza = baza;
         tworzenieOkna();
     }
 
-    public void tworzenieOkna(){
+    /**
+     * Metoda tworzenia okna
+     */
+    private void tworzenieOkna(){
         tworzenieObrazu();
         baza.dodajTrasyMorskie();
         StackPane stackPane = new StackPane();
@@ -69,11 +72,18 @@ public class Mapa {
 
     }
 
-    public void tworzenieObrazu(){
+    /**
+     * Metoda tworzeni obrazu Mapy
+     */
+    private void tworzenieObrazu(){
         Image obrazMapyImage = new Image("obrazMapy.jpg");
         imageViewMapy = new ImageView(obrazMapyImage);
 
     }
+
+    /**
+     * Metody tworzące obraz danego obiektu
+     */
 
     public void tworzenieObrazuLotniskaCywilnego(){
         baza.dodajLotniskaCywilne();
@@ -108,8 +118,6 @@ public class Mapa {
         }
     }
 
-
-
     public void tworzenieObrazuSamolotuCywilnego(SamolotPasazerski samolotPasazerski){
         Image obrazSamolotuCywilnegoImage = new Image("airpane.png");
         imageViewSamolotuCywilnego = new ImageView(obrazSamolotuCywilnegoImage);
@@ -133,7 +141,6 @@ public class Mapa {
         imageViewSamolotuWojskowego.setFitHeight(25);
         imageViewSamolotuWojskowego.setFitWidth(25);
         samolotWojskowyGroup.getChildren().add(imageViewSamolotuWojskowego);
-        clickEventObiekt(imageViewSamolotuWojskowego);
 
     }
 
@@ -147,7 +154,7 @@ public class Mapa {
         imageViewStatkuCywilnego.setFitHeight(25);
         imageViewStatkuCywilnego.setFitWidth(25);
         statekCywilnyGroup.getChildren().add(imageViewStatkuCywilnego);
-        clickEventObiekt(imageViewStatkuCywilnego);
+
     }
 
     public void tworzenieObrazuLotniskowca(Lotniskowiec lotniskowiec){
@@ -160,34 +167,21 @@ public class Mapa {
         imageViewLotniskowca.setFitHeight(25);
         imageViewLotniskowca.setFitWidth(25);
         lotniskowiecGroup.getChildren().add(imageViewLotniskowca);
-        clickEventObiekt(imageViewLotniskowca);
+
     }
 
-//    public void clearPasazerski(){
-//        samolotCywilnyGroup.getChildren().clear();
-//    }
-//
-//    public void clearWojskowy(){
-//        samolotWojskowyGroup.getChildren().clear();
-//    }
-//
-//    public void clearCywilny(){
-//        statekCywilnyGroup.getChildren().clear();
-//    }
-//
-//    public void clearLotniskowiec(){
-//        lotniskowiecGroup.getChildren().clear();
-//    }
 
-    public void clickEventObiekt(ImageView image){
-        image.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-            double polozenieX = image.getX();
-            double polozenieY = image.getY();
-            System.out.println("Aktualne położenie X " + polozenieX);
-            System.out.println("Aktualne położenie Y " + polozenieY);
-            event.consume();
-        });
-    }
+    /**
+     * Metoda odpowiadająca za animacje poruszania się samolotu pasażerskiego
+     * @param aktualneX - współrzędna x lotniska startowego
+     * @param aktualneY - współrzędna y lotniska startowego
+     * @param doceloweX - współrzędna x lotniska docelowego
+     * @param doceloweY - współrzędna y lotniska docelowego
+     * @param imageView - imageview obiektu
+     * @param czasPodrozy - za pomocą podanej prędkości obiektu obliczany jest czas podróży, długość animacji
+     * @param samolotPasazerski - obiekt
+     * @param doceloweLotnisko - obiekt lotniska do którego leci, w celu zwiększenia zapełnienia
+     */
 
     public void przenoszenieObiektuPasazerski(int aktualneX, int aktualneY, int doceloweX, int doceloweY, ImageView imageView, double czasPodrozy, SamolotPasazerski samolotPasazerski, LotniskoCywilne doceloweLotnisko){
         Path path = new Path();
@@ -218,6 +212,18 @@ public class Mapa {
         });
         pathTransition.play();
     }
+
+    /**
+     * Metoda odpowiadająca za animacje poruszania się samolotu wojskowego
+     * @param aktualneX - współrzędna x lotniska startowego
+     * @param aktualneY - współrzędna y lotniska startowego
+     * @param doceloweX - współrzędna x lotniska docelowego
+     * @param doceloweY - współrzędna y lotniska docelowego
+     * @param imageView - imageview obiektu
+     * @param czasPodrozy - za pomocą podanej prędkości obiektu obliczany jest czas podróży, długość animacji
+     * @param samolotWojskowy - obiekt
+     * @param doceloweLotnisko - obiekt lotniska do którego leci, w celu zwiększenia zapełnienia
+     */
 
     public void przenoszenieObiektuWojskowy(int aktualneX, int aktualneY, int doceloweX, int doceloweY, ImageView imageView, double czasPodrozy, SamolotWojskowy samolotWojskowy, LotniskoWojskowe doceloweLotnisko){
         Path path = new Path();
@@ -251,6 +257,9 @@ public class Mapa {
 
     }
 
+    /**
+     * Metoda odpowiadająca za animacje poruszania się statku wycieczkowego i lotniskowca po trasie morskiej
+     */
     public void przenoszenieStatku(ImageView imageView, double czasPodrozy){
         Path path = new Path();
         MoveTo moveTo = new MoveTo(baza.listaPunktowTrasMorskich.get(0).get(0), baza.listaPunktowTrasMorskich.get(0).get(1));
